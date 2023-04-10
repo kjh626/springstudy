@@ -17,7 +17,7 @@ public class MainClass {
 		// src/main/resources/xml01 디렉터리에 있는 app-context.xml 파일에 정의된 Bean을 쓸게요!
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("xml01/app-context.xml");    // src/main/resources는 명시하지 않습니다.(두는 자리가 정해져있음)
 		
-		// Bean 중에서 student란 id를 가진 Bean을 주세요.
+		// Bean 중에서 student란 id를 가진 Bean을 주세요!
 		Student haksaeng = ctx.getBean("student", Student.class);    // (Student)ctx.getBean("student")  동일한 코드다.
 		
 		// haksaeng의 calculator를 이용한 메소드를 호출합니다!

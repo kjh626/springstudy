@@ -3,18 +3,38 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="cont" class="com.gdu.app01.xml02.Contact">
-		<property name="tel" value="02-2108-5900" />
-		<property name="fax" value="02-2108-5999" />
+	<!-- 동일한 문법인데 수정본. 값을 하위 태그의 <value>태그에 줄 수 있다. -->
+	<!-- 처음 했던 코드로 작성하는 게 좋고, 이 문법이랑 동일하다고 알고있으면 OK -->
+	<bean id="contact" class="com.gdu.app01.xml02.Contact">
+		<property name="tel">
+			<value>02-2108-5900</value>
+		</property>
+		<property name="fax">
+			<value>02-2108-5909</value>
+		</property> 
 	</bean>
-	<bean id="addr" class="com.gdu.app01.xml02.Address">
-		<property name="doromyung" value="서울특별시 금천구 가산디지털2로 95 3층 " />
-		<property name="jibeon" value="서울특별시 금천구 가산동 550-7 3층" />
-		<property name="contact" ref="cont" />
+	
+	<bean id="address" class="com.gdu.app01.xml02.Address">
+		<property name="doromyung">
+			<value>서울특별시 금천구 가산디지털2로 95 3층</value>
+		</property>
+		<property name="jibeon">
+			<value>서울특별시 금천구 가산동 550-7 3층</value>
+		</property>
+		<property name="contact">
+			<!-- <ref> 태그의 속성은 bean이라는 이름의 속성을 쓴다. -->
+			<ref bean="contact" />
+		</property>
 	</bean>
+	<!-- id="contact" 를 ref="contact"가 받았다. -->
+	
 	<bean id="academy" class="com.gdu.app01.xml02.Academy">
-		<property name="name" value="구디아카데미" />
-		<property name="address" ref="addr" />
+		<property name="name">
+			<value>구디아카데미</value>
+		</property>
+		<property name="address">
+			<ref bean="address"></ref>
+		</property>
 	</bean>
-
+	<!-- id="address" 를 ref="address"가 받았다. -->
 </beans>
