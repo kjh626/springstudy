@@ -3,8 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- 동일한 문법인데 수정본. 값을 하위 태그의 <value>태그에 줄 수 있다. -->
+	<!-- 동일한 문법인데 수정본. -->
 	<!-- 처음 했던 코드로 작성하는 게 좋고, 이 문법이랑 동일하다고 알고있으면 OK -->
+	<!-- value 속성 대신 <value> 태그를 사용할 수 있습니다. -->
 	<bean id="contact" class="com.gdu.app01.xml02.Contact">
 		<property name="tel">
 			<value>02-2108-5900</value>
@@ -14,6 +15,7 @@
 		</property> 
 	</bean>
 	
+	<!-- ref 속성 대신 <ref bean="" /> 태그를 사용할 수 있습니다. -->	
 	<bean id="address" class="com.gdu.app01.xml02.Address">
 		<property name="doromyung">
 			<value>서울특별시 금천구 가산디지털2로 95 3층</value>

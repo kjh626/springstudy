@@ -20,10 +20,10 @@
 	<!--
 		속성(버전 관리)
 		★★properties 태그에 작성한 버전들은 모두 ${}로 사용할 수 있다.★★
-		${java-version} -> 11로 사용된다. (1.6 값을 가져다가 쓴다.)
-		${org.springframework-version} -> 5.3.3으로 사용된다. (밑에 한번 쓴 거 보인다)
-		${org.aspectj-version} -> 1.6.10
-		${org.slf4j-version} -> 1.6.6
+		${java-version} 				-> 11로 사용된다. (1.6 값을 가져다가 쓴다.)
+		${org.springframework-version}  -> 5.3.3으로 사용된다. (밑에 한번 쓴 거 보인다)
+		${org.aspectj-version} 			-> 1.9.6
+		${org.slf4j-version} 			-> 1.7.30
 		
 		SpringFramework 버전을 2021년 01월 버전으로 정하고,
 		aspectj와 slf4j의 버전을 2021년 01월 버전 또는 직전 버전으로 사용하였다.
