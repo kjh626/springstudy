@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cont" class="com.gdu.app01.xml02.Contact">
+		<property name="tel" value="02-2108-5900" />
+		<property name="fax" value="02-2108-5999" />
+	</bean>
+	<bean id="addr" class="com.gdu.app01.xml02.Address">
+		<property name="doromyung" value="서울특별시 금천구 가산디지털2로 95 3층 " />
+		<property name="jibeon" value="서울특별시 금천구 가산동 550-7 3층" />
+		<property name="contact" ref="cont" />
+	</bean>
+	<bean id="academy" class="com.gdu.app01.xml02.Academy">
+		<property name="name" value="구디아카데미" />
+		<property name="address" ref="addr" />
+	</bean>
+
+</beans>

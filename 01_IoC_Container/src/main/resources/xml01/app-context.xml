@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 
+		안녕. 난 Spring Bean Configuration File이야.
+		난 IoC Container(스프링 컨테이너)에 Bean을 만들어 두는 파일이지.
+		내가 <bean> 태그를 사용하면 Bean이 만들어져서 보관돼.
+	-->
+	
+	<!-- id에 객체 이름 적어주기, class에 타입 적어주기(자동완성 가능) -->
+	<!-- <bean id="calc" class="~~~" /> 이렇게만 해주면 스프링이 알아서 new 해준다. -->
+	<!-- 
+		default constructor + setter
+		<property name="stuNo"> 태그는 setStuNo() 메소드를 이용한다.
+		<property name="name"> 태그는 setName() 메소드를 이용한다.
+		<property name="calculator"> 태그는 setCalculator() 메소드를 이용한다.
+	-->
+	
+	<!-- 
+		Calculator calculator = new Calculator();
+		Student student = new Student();
+		student.setStuNo("10101");
+		studnet.setName("강나래");
+		student.setCalculaotr(calc);
+	-->
+	<!-- 위 주석이랑 차례대로 같은 역할.  property 내부에 name, value 를 써준다. -->
+	<bean id="calc" class="com.gdu.app01.xml01.Calculator" />
+	<bean id="student" class="com.gdu.app01.xml01.Student">
+		<property name="stuNo" value="10101" />
+		<property name="name" value="강나래" />
+		<property name="calculator" ref="calc" />
+	</bean>
+	<!-- ref="calc"에서의 calc는 bean id="calc"의 calc를 나타낸다. -->
+	<!-- bean을 값으로 가질 때는 value라고 안 한다.(ref라고 한다.) -->
+
+</beans>
