@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="user" class="com.gdu.app01.xml03.User" p:id="광개토대왕" p:name="고담덕" />
+	
+	<bean id="board" class="com.gdu.app01.xml03.Board" p:title="광개토대왕비" p:content="중국 지린성" p:writer-ref="user" />	
+
+</beans>

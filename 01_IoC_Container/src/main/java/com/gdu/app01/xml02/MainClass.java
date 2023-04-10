@@ -14,8 +14,8 @@ public class MainClass {
 		Academy academy = ctx.getBean("academy", Academy.class);   // (Academy)ctx.getBean("student")
 		
 		System.out.println("이름: " + academy.getName());
-		System.out.println("도로명주소: " + academy.getAddress().getDoromyung());
-		System.out.println("지번주소: " + academy.getAddress().getJibeon());
+		System.out.println("도로명주소: " + academy.getAddress().getRoadAddress());
+		System.out.println("지번주소: " + academy.getAddress().getJibunAddress());
 		System.out.println("전화번호: " + academy.getAddress().getContact().getTel());
 		System.out.println("팩스번호: " + academy.getAddress().getContact().getFax());
 		

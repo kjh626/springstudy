@@ -1,20 +1,20 @@
 package com.gdu.app01.xml02;
 
 public class Address {
-	private String doromyung;
-	private String jibeon;
+	private String roadAddress;
+	private String jibunAddress;
 	private Contact contact;
-	public String getDoromyung() {
-		return doromyung;
+	public String getRoadAddress() {
+		return roadAddress;
 	}
-	public void setDoromyung(String doromyung) {
-		this.doromyung = doromyung;
+	public void setRoadAddress(String roadAddress) {
+		this.roadAddress = roadAddress;
 	}
-	public String getJibeon() {
-		return jibeon;
+	public String getJibunAddress() {
+		return jibunAddress;
 	}
-	public void setJibeon(String jibeon) {
-		this.jibeon = jibeon;
+	public void setJibunAddress(String jibunAddress) {
+		this.jibunAddress = jibunAddress;
 	}
 	public Contact getContact() {
 		return contact;
@@ -22,4 +22,5 @@ public class Address {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
+	
 }

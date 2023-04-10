@@ -17,10 +17,10 @@
 	
 	<!-- ref 속성 대신 <ref bean="" /> 태그를 사용할 수 있습니다. -->	
 	<bean id="address" class="com.gdu.app01.xml02.Address">
-		<property name="doromyung">
+		<property name="roadAddress">
 			<value>서울특별시 금천구 가산디지털2로 95 3층</value>
 		</property>
-		<property name="jibeon">
+		<property name="jibunAddress">
 			<value>서울특별시 금천구 가산동 550-7 3층</value>
 		</property>
 		<property name="contact">
@@ -35,7 +35,7 @@
 			<value>구디아카데미</value>
 		</property>
 		<property name="address">
-			<ref bean="address"></ref>
+			<ref bean="address" />
 		</property>
 	</bean>
 	<!-- id="address" 를 ref="address"가 받았다. -->

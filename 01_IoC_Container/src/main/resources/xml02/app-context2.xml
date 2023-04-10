@@ -3,40 +3,34 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- 동일한 문법인데 수정본. -->
-	<!-- 처음 했던 코드로 작성하는 게 좋고, 이 문법이랑 동일하다고 알고있으면 OK -->
-	<!-- value 속성 대신 <value> 태그를 사용할 수 있습니다. -->
 	<bean id="contact" class="com.gdu.app01.xml02.Contact">
 		<property name="tel">
-			<value>02-2108-5900</value>
+			<value>02-0000-0000</value>
 		</property>
 		<property name="fax">
-			<value>02-2108-5909</value>
-		</property> 
+			<value>02-1111-1111</value>
+		</property>
 	</bean>
 	
-	<!-- ref 속성 대신 <ref bean="" /> 태그를 사용할 수 있습니다. -->	
 	<bean id="address" class="com.gdu.app01.xml02.Address">
 		<property name="roadAddress">
-			<value>서울특별시 금천구 가산디지털2로 95 3층</value>
+			<value>서울 가산디지털로</value>
 		</property>
 		<property name="jibunAddress">
-			<value>서울특별시 금천구 가산동 550-7 3층</value>
+			<value>서울 가산동</value>
 		</property>
 		<property name="contact">
-			<!-- <ref> 태그의 속성은 bean이라는 이름의 속성을 쓴다. -->
-			<ref bean="contact" />
+			<ref bean="contact"/>
 		</property>
 	</bean>
-	<!-- id="contact" 를 ref="contact"가 받았다. -->
 	
 	<bean id="academy" class="com.gdu.app01.xml02.Academy">
 		<property name="name">
-			<value>구디아카데미</value>
+			<value>GOODEE ACADEMY</value>
 		</property>
 		<property name="address">
 			<ref bean="address" />
 		</property>
 	</bean>
-	<!-- id="address" 를 ref="address"가 받았다. -->
+
 </beans>
