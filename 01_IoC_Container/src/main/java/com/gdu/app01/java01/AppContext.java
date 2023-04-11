@@ -19,7 +19,7 @@ public class AppContext {
 		@Bean
 		안녕. 난 Bean을 만드는 메소드야.
 		반환타입이 Bean의 타입(<bean> 태그의 class 속성)이고,
-		메소드명이 Bean의 이름(<bean 태그의 id 속성)이야.
+		메소드명이 Bean의 이름(<bean> 태그의 id 속성)이야.
 	*/
 	@Bean
 	public Contact contact1() {       // <bean id="contact1" class="Contact">
