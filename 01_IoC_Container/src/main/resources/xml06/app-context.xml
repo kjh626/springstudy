@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 프로퍼티가 필요없다 -->
+	<bean id="calc" class="com.gdu.app01.xml06.Calculator" />
+
+	<!-- 생성자는 작성 순서대로 값을 줘라 -->
+	<!-- 다른 빈의 값을 가지고 싶으면 ref 속성을 쓰시오. -->
+	<bean id="bmiCalc" class="com.gdu.app01.xml06.BmiCalculator">
+		<constructor-arg value="1.85"></constructor-arg>
+		<constructor-arg value="80.5"></constructor-arg>
+		<constructor-arg ref="calc"></constructor-arg>
+	</bean>		
+	
+	<bean id="member" class="com.gdu.app01.xml06.GymMember">
+		<constructor-arg value="김종국" />
+		<constructor-arg>
+			<list>
+				<value>헬스</value>
+				<value>수영</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg ref="bmiCalc" />
+	</bean>
+
+</beans>
