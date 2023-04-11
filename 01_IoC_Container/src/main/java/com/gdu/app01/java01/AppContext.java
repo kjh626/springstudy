@@ -40,11 +40,11 @@ public class AppContext {
 	// contact2, user2 빈을 constructor를 이용해서 만들어 보세요. 그리고 MainClass에서 확인하세요.
 	
 	@Bean(name="contact2")   // name 속성이 추가되면 Bean의 id로 사용됩니다.
-	public Contact www() {   // name 속성이 사용되었으므로 메소드명은 더 이상 Bean의 id가 아니에요. 그렇기 때문에 아무이름이나 써도 된다.
+	public Contact www() {   // name 속성이 사용되었으므로 메소드명은 더 이상 Bean의 id가 아니에요. 아무 이름이나 써도 됩니다.
 		return new Contact("02-3333-3330", "02-3333-3339");
 	}
 	@Bean(name="user2")      // name 속성이 추가되면 Bean의 id로 사용됩니다.
-	public User aaa() {      // name 속성이 사용되었으므로 메소드명은 더 이상 Bean의 id가 아니에요. 그렇기 때문에 아무이름이나 써도 된다.
+	public User aaa() {      // name 속성이 사용되었으므로 메소드명은 더 이상 Bean의 id가 아니에요. 아무 이름이나 써도 됩니다.
 		return new User("bat", www()); 
 	}
 	
