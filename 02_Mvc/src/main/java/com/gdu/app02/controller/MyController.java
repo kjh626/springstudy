@@ -40,4 +40,24 @@ public class MyController {
 						  // /WEB-INF/views/index.jsp
 	}
 	
+	/* 
+		@RequestMapping 작성 예시
+		1. @RequestMapping(value="/list.do", method=RequestMethod.GET)   정식 버전
+		2. @RequestMapping(value="list.do", method=RequestMethod.GET)    value는 슬래시(/)로 시작하지 않아도 된다.
+		3. @RequestMapping(value="/list.do")                             GET 방식의 method는 생략할 수 있다.
+		4. @RequestMapping("/list.do")                                   value 속성만 작성하는 경우에는 값만 작성할 수 있다.
+	*/
+	// jsp 서블릿에서는 @WebServlet("*.do")를 해줬는데, 여기서는 해줄 필요없다. 왜? DispatcherServlet이 있어서..  list.do 찾아준다(이 매핑은 어느 컨트롤러에 있군요 하면서) , + 매핑 이름 편하게 적어도 된다.
+	@RequestMapping("/list.do")   // 선생님 선호는 정식 방법 : 매핑은 /로 시작하기, 경로는 /로 시작 안하기("board/list")
+	public String list() {
+		return "board/list";    // 실제 처리되는 경로 : /WEB-INF/views/board/list.jsp
+		/*
+			return "/board/list";
+			실제 처리되는 경로 : /WEB-INF/views//board/list.jsp   
+			하지만, 실제로는 /WEB-INF/views/board/list.jsp 경로로 처리된다. (슬래시 2개로 적어도 무시되고 하나로 된다)
+		*/
+	}
+	
+	
+	
 }
