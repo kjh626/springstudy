@@ -13,7 +13,7 @@ public class AppContext {
 		Bbs bbs = new Bbs();
 		bbs.setBbsNo(2);
 		bbs.setTitle("살려주세요");
-		bbs.setCreatedAt("2023-04-12");
+		bbs.setCreatedAt("2023-04-13");
 		
 		return bbs;
 	

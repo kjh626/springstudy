@@ -10,7 +10,7 @@
 	<bean id="bbs1" class="com.gdu.app02.domain.Bbs">
 		<property name="bbsNo" value="1" />
 		<property name="title" value="도와주세요" />
-		<property name="createdAt" value="2013-04-12" />
+		<property name="createdAt" value="2023-04-12" />
 	</bean>
 	
 	<!-- 2번째 Bean은 AppContext.java에 있습니다.  -->
