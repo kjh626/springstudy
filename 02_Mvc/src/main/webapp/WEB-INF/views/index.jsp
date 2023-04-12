@@ -48,6 +48,14 @@
 	<div><a href="${contextPath}/detail.gdu?age=66">상세보기3</a></div>
 	<div><a href="${contextPath}/detail.gdu?name=김정현&age=66">상세보기4</a></div>
 		
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	<!-- DiController에서 확인합시다. -->
+	<h1>Dependency Injection</h1>
+	<!-- 매핑할 때 bbs맡은 사람의 detail (무슨 테이블의 detail, list. 앞에 테이블로 적어주면 편할듯?) 스프링에서는 자유롭게 매핑하면 된다. -->
+	<!-- 선생님이 만든 웹페이지에서 볼 때 주소에 contextpath가 안 보이는데.. 배포할 때 배운다...  컨텍스트패스 변수 처리해놓으면 컨텍스트패스 없어도 인식한다. 변수처리! 꼭 해라 -->
+	<div><a href="${contextPath}/bbs/detail.do">상세보기</a></div>
+	
 
 </body>
 </html>
