@@ -5,4 +5,9 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+	<bean id="bbs1" class="com.gdu.kim01.domain.Bbs">
+		<property name="bbsNo" value="1" />
+		<property name="title" value="헬미헬미!" />
+		<property name="createdAt" value="2023-05-01" />
+	</bean>
 </beans>

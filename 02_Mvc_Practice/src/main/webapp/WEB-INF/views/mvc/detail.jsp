@@ -13,5 +13,11 @@
 		<h1>나이 ${age}</h1>
 	</div>
 	
+	<hr>
+	
+	<!-- person은 속성의 이름인데 이 속성의 이름은 객체 타입이다.(Person) -->
+	<h1>이름 ${person.name}</h1>
+	<h1>나이 ${person.age}</h1>
+	
 </body>
 </html>

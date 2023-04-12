@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdu.kim01.domain.Person;
+
 @Controller
 public class MvcController {
 	
@@ -25,7 +27,7 @@ public class MvcController {
 		return "mvc/detail";
 	}
 	
-	@GetMapping("detail.me")
+	@GetMapping("/detail.me")
 	public String detailMe(@RequestParam(value="name", required=false, defaultValue="녹두") String name,
 							@RequestParam(value="age", required=false, defaultValue="666666") int age,
 							Model model) {
@@ -33,6 +35,11 @@ public class MvcController {
 		model.addAttribute("name", name);
 		model.addAttribute("age", age);
 		
+		return "mvc/detail";
+	}
+	
+	@GetMapping("/detail.gdu")
+	public String detailGdu(Person p) {
 		return "mvc/detail";
 	}
 	
