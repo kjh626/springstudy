@@ -9,5 +9,8 @@
 		<!-- List list = new ArrayList
 			 Map map = new HashMap
 			 IService serv = new FirstServiceImpl -->
+			 
+		 <!-- Spring Container 에 등록된 Bean -->
 		<bean id="firstService" class="com.gdu.app03.service.FirstServiceImpl" />	
+		<bean id="secondService" class="com.gdu.app03.service.SecondServiceImpl" /> 
 </beans>

@@ -3,6 +3,7 @@ package com.gdu.app03.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,8 +30,9 @@ public class FirstController {
 	
 	@ResponseBody    // 메소드의 반환 값이 Jsp이름이 아니다. 응답하는 값(데이터)이다.(요청한 곳으로 보내는 데이터이다.) => 값을 응답해주세요! ajax처리할 때 쓰는 애너테이션 
 	@GetMapping(value="/first/ajax1", produces="application/json")   // produces : 응답할 데이터의 MIME TYPE
-	public Person ajax1(HttpServletRequest request) {                // "Jackson 라이브러리"가 반환값 Person 객체를 자동으로 JSON 데이터로 변환한다. (응답할 데이터타입 json으로 적어줬기 때문에 잭슨이 알아서 json으로 바꿔준다)
-		return firstService.execute1(request);
+	public Person ajax1(HttpServletRequest request,
+						HttpServletResponse response) {               
+		return firstService.execute1(request,response);				 // "Jackson 라이브러리"가 반환값 Person 객체를 자동으로 JSON 데이터로 변환한다. (응답할 데이터타입 json으로 적어줬기 때문에 잭슨이 알아서 json으로 바꿔준다)
 		// first.jsp에서의 요청 파라미터 FirstController의 request에 전달 → request가 FirstServiceImpl의 execute1 메소드에 전달
 	}
 	
@@ -41,5 +43,10 @@ public class FirstController {
 		return firstService.execute2(name, age);        // "Jackson 라이브러리"가 반환값 Map을 자동으로 JSON 데이터로 변환한다.
 	}
 	
+	@ResponseBody
+	@GetMapping(value="/first/ajax3", produces="application/json")
+	public Map<String, Object> ajax3(Person person) {
+		return firstService.execute3(person);
+	}
 	
 }
