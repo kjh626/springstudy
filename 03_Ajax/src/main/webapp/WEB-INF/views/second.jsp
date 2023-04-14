@@ -34,6 +34,19 @@
 	}
 	
 	function fnBmi2(){
+		// 파라미터를 보낼 때 예외를 처리해준다. 
+		let weight = $('#weight').val();
+		// 비어있거나 0보다 작거나 isNaN(weight) weight가 숫자가 아니다
+		if(weight == '' || Number(weight) < 0 || isNaN(weight)) {
+			alert('몸무게를 확인하세요.');
+			return;
+		}
+		let height = $('#height').val();
+		if(height == '' || Number(height) < 0 || isNaN(height)) {
+			alert('키를 확인하세요.');
+			return;
+		}
+		
 		$.ajax({
 			type: 'get',
 			url: '${contextPath}/second/bmi2',
@@ -46,7 +59,10 @@
 			error: function(jqXHR){
 				$('#bmi').text('');
 				$('#obesity').text('');
-				alert(jqXHR.responseText);
+				// alert(jqXHR.responseText);
+				if(jqXHR.status == 400) {   // 400은 BAD REQUEST를 의미한다.
+					alert('몸무게와 키는 0일 수 없습니다.')
+				}
 			}
 		})
 		

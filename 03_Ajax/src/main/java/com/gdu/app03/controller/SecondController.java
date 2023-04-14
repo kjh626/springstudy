@@ -3,7 +3,6 @@ package com.gdu.app03.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,12 +34,13 @@ public class SecondController {
 		return secondService.execute1(request);
 	}
 	
-	
-	
-	
-	
-	
-	
+	@ResponseBody
+	@GetMapping("second/bmi2")   // produces가 없음에 주의합니다. (서비스의 반환 객체 ResponseEntity에 Content-Type을 작성해서 보냅니다.) 
+	// 파라미터를 객체로 받을 수 있다(커맨트 객체)
+	// 커맨드 객체라 파라미터 받았을 떄의 특징 : 파라미터는 반드시 스트링으로 전달될텐데 입력 안 하고 버튼누르면 빈 문자열이 전달돼서 더블 타입으로 변환을 시도하다가 넘버포맷익셉션이 발생.
+	public ResponseEntity<Map<String, Object>> bmi2(BmiVO bmiVO) {
+		return secondService.execute2(bmiVO);
+	}
 	
 	
 	
