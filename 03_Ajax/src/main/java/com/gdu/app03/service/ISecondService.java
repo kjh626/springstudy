@@ -22,5 +22,5 @@ public interface ISecondService {
 	// @requestParam으로 받는 것은 연습 안 함.
 	
 	
-	// 응답 개체. 스프링에는 ajax전용 응답 개체가 만들어져 있다(스프링 클래스)
+	// 응답 개체. 스프링에는 ajax전용 응답 개체가 만들어져 있다(스프링 클래스) : ResponseEntity<T>
 }

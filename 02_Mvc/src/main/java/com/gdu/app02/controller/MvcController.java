@@ -118,7 +118,7 @@ public class MvcController {
 	/*
 	@GetMapping("/detail.gdu")
 	public String detailGdu(@ModelAttribute(value="p") Person person) {   // Model에 저장할 속성명을 p로 해 주세요!
-																		  // ${p.name}, ${p.age}와 같으 형식으로 확인할 수 있다.
+																		  // ${p.name}, ${p.age}와 같은 형식으로 확인할 수 있다.
 		return "mvc/detail";
 	}
 	*/
