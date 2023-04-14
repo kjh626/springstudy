@@ -44,7 +44,30 @@
 	}
 	
 	function fn2(){
-		
+		$.ajax({
+			// 요청
+			type: 'post',
+			url: '${contextPath}/third/ajax2',
+			data: JSON.stringify({   
+				'name': $('#name').val(),  // name이라는 프로퍼티로 객체를 만들고
+				'tel': $('#tel').val()     // tel이라는 프로퍼티로 객체를 만든다.
+			}),
+			contentType: 'application/json',
+			// 응답
+			dataType: 'json',
+			success: function(resData){       
+				// 알아서 닫는다 (</ul> 안 적어줘도)
+				let str = '<ul>';
+				str += '<li>' + resData.name;
+				str += '<li>' + resData.tel;
+				$('#result').html(str);   
+			},
+			error: function(jqXHR){
+				if(jqXHR.status == 400){
+					alert('이름과 전화번호 입력이 잘못되었습니다.');
+				}
+			}
+		})
 	}
 	
 </script>

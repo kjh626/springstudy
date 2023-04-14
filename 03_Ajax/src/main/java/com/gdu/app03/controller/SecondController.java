@@ -28,13 +28,12 @@ public class SecondController {
 		this.secondService = secondService;   // 이렇게 빈이 매개변수를 거쳐서 필드에 주입된다.
 	}
 	
-	@ResponseBody
+	// @ResponseBody 필요없다!
 	@GetMapping(value="/second/bmi1", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BmiVO> bmi1(HttpServletRequest request) {
 		return secondService.execute1(request);
 	}
 	
-	@ResponseBody
 	@GetMapping("second/bmi2")   // produces가 없음에 주의합니다. (서비스의 반환 객체 ResponseEntity에 Content-Type을 작성해서 보냅니다.) 
 	// 파라미터를 객체로 받을 수 있다(커맨트 객체)
 	// 커맨드 객체라 파라미터 받았을 떄의 특징 : 파라미터는 반드시 스트링으로 전달될텐데 입력 안 하고 버튼누르면 빈 문자열이 전달돼서 더블 타입으로 변환을 시도하다가 넘버포맷익셉션이 발생.

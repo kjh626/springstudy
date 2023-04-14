@@ -11,4 +11,5 @@ public interface IThirdService {
 	// jsp에서 json데이터를 서버측으로 전달하면 빈 이나 맵으로 받는다.
 	public ResponseEntity<Contact> execute1(Contact contact);
 	public ResponseEntity<Map<String, String>> execute2(Map<String, String> map);
+	// json으로 보내서 Map으로 잘 받을 수 있는가..? 아마 잘 된다
 }
