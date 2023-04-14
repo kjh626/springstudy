@@ -32,7 +32,7 @@ public class FirstController {
 	@GetMapping(value="/first/ajax1", produces="application/json")   // produces : 응답할 데이터의 MIME TYPE
 	public Person ajax1(HttpServletRequest request,
 						HttpServletResponse response) {               
-		return firstService.execute1(request,response);				 // "Jackson 라이브러리"가 반환값 Person 객체를(Bean을) 자동으로 JSON 데이터로 변환한다. (응답할 데이터타입 json으로 적어줬기 때문에 잭슨이 알아서 json으로 바꿔준다)
+		return firstService.execute1(request,response);				 // "Jackson 라이브러리"가 반환값 Person 객체를 자동으로 JSON 데이터로 변환한다. (응답할 데이터타입 json으로 적어줬기 때문에 잭슨이 알아서 json으로 바꿔준다)
 		// first.jsp에서의 요청 파라미터 FirstController의 request에 전달 → request가 FirstServiceImpl의 execute1 메소드에 전달
 	}
 	
