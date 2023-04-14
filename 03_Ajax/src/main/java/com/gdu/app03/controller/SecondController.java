@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,12 +28,29 @@ public class SecondController {
 		super();
 		this.secondService = secondService;   // 이렇게 빈이 매개변수를 거쳐서 필드에 주입된다.
 	}
-
+	
+	@ResponseBody
+	@GetMapping(value="/second/bmi1", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BmiVO> bmi1(HttpServletRequest request) {
+		return secondService.execute1(request);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
 	// get방식의 요청이니 getMapping
 	@ResponseBody  // 이걸 붙여줘야만 리턴하는게 응답데이터로 넘어간다(.jsp 가 아니라)
 	@GetMapping(value="/second/bmi1", produces=MediaType.APPLICATION_JSON_VALUE)  // MediaType.APPLICATION_JSON_VALUE는 "application/json"이다
 	public BmiVO bmi1(HttpServletRequest request, HttpServletResponse response) {
-		return secondService.execute1(request, response);
+		return secondService.execute1(request, response);   // 반환할 게 bean이네?(BmiVO) + 반환하는 데이터의 타입을 APPLICATION_JSON으로 잡아둠 -> jackson이 json데이터로 변환해서 전달해준다.
 	}
 
 	// 파라미터 커맨드 객체로 받기
@@ -41,5 +59,17 @@ public class SecondController {
 	public Map<String, Object> bmi2(BmiVO bmiVO){
 		return secondService.execute2(bmiVO);
 	}
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
