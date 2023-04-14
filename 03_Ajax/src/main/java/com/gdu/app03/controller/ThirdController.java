@@ -30,7 +30,7 @@ public class ThirdController {
 	// @ResponseBody 적어줄 필요 없다. ResponseEntity의 내장 기능으로 응답 본문에 데이터를 실어주는 기능이 들어있다.
 	// 오타내지마라 application/json 자신없으면 MediaType 써라
 	@PostMapping(value="/third/ajax1", produces="application/json")           // 파라미터 없이 데이터를 주고 받는 방법. (고도화된 방법) => 오직 이 방법으로만 쓸 수 있다. @RequestBody
-	public ResponseEntity<Contact> ajax1(@RequestBody Contact contact){      // 요청 본문(RequestBody)에 포함된 JSON 데이터를 Contact contact 객체에 저장해 주세요. <- 여기서 Jackson이 JSON 데이터를 Contact 객체로 변환시켜준다.
+	public ResponseEntity<Contact> ajax1(@RequestBody Contact contact){       // 요청 본문(RequestBody)에 포함된 JSON 데이터를 Contact contact 객체에 저장해 주세요. <- 여기서 Jackson이 JSON 데이터를 Contact 객체로 변환시켜준다.
 		 return thirdService.execute1(contact);
 	}
 	

@@ -25,15 +25,17 @@ public class ThirdServiceImpl implements IThirdService {
 	@Override
 	public ResponseEntity<Map<String, String>> execute2(Map<String, String> map) {
 
+		String name = map.get("name");
+		String tel = map.get("tel");
+		
 		// 이름이 공백이거나, 전화번호의 글자 수가 3글자 이하인 경우 $.ajax의 error 처리
-		if(map.get("name").isEmpty() || map.get("tel").length() <= 3) {
+		if(name.isEmpty() || tel.length() <= 3) {
 			return new ResponseEntity<Map<String,String>>(HttpStatus.BAD_REQUEST);
 		}
-		// 이름은 그대로, 전화번호에 하이픈(-)이 포함되어 있으면 모두 제거 후 돌려보내기($.ajax의 success로 전달)
-		if(map.get("tel").indexOf("-") != -1) {
-			map.put("tel", map.get("tel").replace("-", ""));
-			return new ResponseEntity<Map<String,String>>(map, HttpStatus.OK);
-		}
+		
+		// 이름은 그대로, 전화번호에 하이픈(-)이 포함되어 있으면 모두 제거 후 돌려보내기 ($.ajax의 success로 전달)
+		map.put("tel", tel.replace("-", ""));  // Map의 key는 중복될 수 없다. put() 메소드로 Map에 값을 추가할 때 이미 Map에 있는 key를 사용하면 추가되지 않고, 기존 key의 value가 수정된다.
+
 		return new ResponseEntity<Map<String,String>>(map, HttpStatus.OK);
 	}
 

@@ -56,7 +56,6 @@
 			// 응답
 			dataType: 'json',
 			success: function(resData){       
-				// 알아서 닫는다 (</ul> 안 적어줘도)
 				let str = '<ul>';
 				str += '<li>' + resData.name;
 				str += '<li>' + resData.tel;
@@ -64,7 +63,7 @@
 			},
 			error: function(jqXHR){
 				if(jqXHR.status == 400){
-					alert('이름과 전화번호 입력이 잘못되었습니다.');
+					alert('이름과 전화번호 입력을 확인하세요.');
 				}
 			}
 		})
