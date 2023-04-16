@@ -98,7 +98,7 @@
 	<h1>주말에 풀어보기</h1>
 	<form id="frm_sch">
 		<div>검색결과건수
-			<select name="display">
+			<select name="display" id="display">
 				<option value="10">10</option>
 				<option value="20">20</option>
 				<option value="30">30</option>
@@ -106,10 +106,10 @@
 			</select>
 		</div>
 		<div>
-			<input type="radio" name="sort" value="sim" id="sim"><label for="sim">유사도순</label>
-			<input type="radio" name="sort" value="date" id="date"><label for="date">날짜순</label>
-			<input type="radio" name="sort" value="asc" id="asc"><label for="asc">낮은가격순</label>
-			<input type="radio" name="sort" value="dsc" id="dsc"><label for="dsc">높은가격순</label>
+			<input type="radio" class="sort" name="sort" value="sim" id="sim" checked><label for="sim">유사도순</label>
+			<input type="radio" class="sort" name="sort" value="date" id="date"><label for="date">날짜순</label>
+			<input type="radio" class="sort" name="sort" value="asc" id="asc"><label for="asc">낮은가격순</label>
+			<input type="radio" class="sort" name="sort" value="dsc" id="dsc"><label for="dsc">높은가격순</label>
 		</div>
 		<div>
 			<label for="query">검색어 입력</label>
@@ -141,7 +141,7 @@
 				// 요청
 				type: 'get',
 				url: '${contextPath}/search.do',
-				data: 'query=' + $('#query').val() + '&sort=' + $('#sort').val() + '&display=' + $('#display').val(),
+				data: 'query=' + $('#query').val() + '&sort=' + $('#frm_sch :radio:checked').val() + '&display=' + $('#display').val(),
 				// 응답
 				dataType: 'json',
 				success: function(resData){

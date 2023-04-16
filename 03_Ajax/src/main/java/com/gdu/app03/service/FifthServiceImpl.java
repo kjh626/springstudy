@@ -97,14 +97,19 @@ public class FifthServiceImpl implements IFifthService {
 		String clientSecret = "Lp2f019JKT";
 
         String text = null;
+        String sort = request.getParameter("sort");
+        String display = request.getParameter("display"); 
+        		
         try {
             text = URLEncoder.encode(request.getParameter("query"), "UTF-8");
+            sort = URLEncoder.encode(request.getParameter("sort"), "UTF-8");
+            display = URLEncoder.encode(request.getParameter("display"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text;    // JSON 결과
+        String apiURL = "https://openapi.naver.com/v1/search/shop.json?query=" + text + "&sort=" + sort + "&display=" + display;    // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
 
@@ -112,8 +117,8 @@ public class FifthServiceImpl implements IFifthService {
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
-
-
+        
+       System.out.println(text + display + sort);
         System.out.println(responseBody);
 		return new ResponseEntity<String>(responseBody, HttpStatus.OK);
 		
