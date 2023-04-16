@@ -92,6 +92,77 @@
 			})
 		})
 	</script>
-
+	
+	<hr>
+	
+	<h1>주말에 풀어보기</h1>
+	<form id="frm_sch">
+		<div>검색결과건수
+			<select name="display">
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+				<option value="40">40</option>
+			</select>
+		</div>
+		<div>
+			<input type="radio" name="sort" value="sim" id="sim"><label for="sim">유사도순</label>
+			<input type="radio" name="sort" value="date" id="date"><label for="date">날짜순</label>
+			<input type="radio" name="sort" value="asc" id="asc"><label for="asc">낮은가격순</label>
+			<input type="radio" name="sort" value="dsc" id="dsc"><label for="dsc">높은가격순</label>
+		</div>
+		<div>
+			<label for="query">검색어 입력</label>
+			<input type="text" id="query">
+			<input type="button" value="검색" onclick="fnsch()">
+		</div>
+	</form>
+	<hr>
+	<table border="1">
+		<thead>
+			<tr>
+				<td>상품명</td>
+				<td>썸네일</td>
+				<td>최저가</td>
+				<td>판매처</td>
+			</tr>
+		</thead>
+		<tbody id="sch_list_json"></tbody>
+	</table>
+	
+	<script>
+		function fnsch(){
+			if($('#query').val() == ''){
+				alert('검색어를 입력하세요');
+				$('#query').focus();
+				return;
+			}
+			$.ajax({
+				// 요청
+				type: 'get',
+				url: '${contextPath}/search.do',
+				data: 'query=' + $('#query').val() + '&sort=' + $('#sort').val() + '&display=' + $('#display').val(),
+				// 응답
+				dataType: 'json',
+				success: function(resData){
+					 $('#sch_list_json').empty();
+					 	console.log(resData)
+	                    $.each(resData.items, (i, item)=>{
+	                    	 var tr = $('<tr>');
+	                         tr.append($('<td>').html($('<a>').attr('target', '_blank').attr('href', item.link).append(item.title)));
+	                         tr.append($('<td>').html($('<a>').attr('target', '_blank').attr('href', item.link).append($('<img>').attr('src', item.image).attr('width', '80px').attr('height', '120px'))));
+	                         tr.append($('<td>').html($('<span>').text(item.lprice + '원')));
+	                         tr.append($('<td>').html(item.mallName));
+	                         $('#sch_list_json').append(tr);
+	                     });
+	            },
+				error: function(jqXHR){
+					if(jqXHR.status == 503){  // HttpStatus.SERVICE_UNAVAILABLE는 503이다.
+						alert('검색 서비스 사용이 불가합니다. 입력 정보를 확인하세요.');
+					}
+				}
+			})
+		}
+	</script>
 </body>
 </html>
