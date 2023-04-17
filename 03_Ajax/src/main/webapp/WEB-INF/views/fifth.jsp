@@ -99,36 +99,42 @@
 	<form id="frm_sch">
 		<div>검색결과건수
 			<select name="display" id="display">
-				<option value="10">10</option>
+				<option value="10" selected>10</option>
 				<option value="20">20</option>
-				<option value="30">30</option>
 				<option value="40">40</option>
+				<option value="60">60</option>
+				<option value="80">80</option>
+				<option value="100">100</option>
 			</select>
 		</div>
 		<div>
-			<input type="radio" class="sort" name="sort" value="sim" id="sim" checked><label for="sim">유사도순</label>
-			<input type="radio" class="sort" name="sort" value="date" id="date"><label for="date">날짜순</label>
-			<input type="radio" class="sort" name="sort" value="asc" id="asc"><label for="asc">낮은가격순</label>
-			<input type="radio" class="sort" name="sort" value="dsc" id="dsc"><label for="dsc">높은가격순</label>
+			<input type="radio" name="sort" id="sim" value="sim" checked><label for="sim">유사도순</label>
+			<input type="radio" name="sort" id="date" value="date"><label for="date">날짜순</label>
+			<input type="radio" name="sort" id="asc" value="asc"><label for="asc">낮은가격순</label>
+			<input type="radio" name="sort" id="dsc" value="dsc"><label for="dsc">높은가격순</label>
 		</div>
 		<div>
 			<label for="query">검색어 입력</label>
-			<input type="text" id="query">
+			<input type="text" name="query" id="query">
 			<input type="button" value="검색" onclick="fnsch()">
 		</div>
 	</form>
+	
 	<hr>
-	<table border="1">
-		<thead>
-			<tr>
-				<td>상품명</td>
-				<td>썸네일</td>
-				<td>최저가</td>
-				<td>판매처</td>
-			</tr>
-		</thead>
-		<tbody id="sch_list_json"></tbody>
-	</table>
+	
+	<div>
+		<table border="1">
+			<thead>
+				<tr>
+					<td>상품명</td>
+					<td>썸네일</td>
+					<td>최저가</td>
+					<td>판매처</td>
+				</tr>
+			</thead>
+			<tbody id="products"></tbody>
+		</table>
+	</div>
 	
 	<script>
 		function fnsch(){
@@ -141,25 +147,24 @@
 				// 요청
 				type: 'get',
 				url: '${contextPath}/search.do',
-				data: 'query=' + $('#query').val() + '&sort=' + $('#frm_sch :radio:checked').val() + '&display=' + $('#display').val(),
+				data: $('#frm_sch').serialize(),
 				// 응답
 				dataType: 'json',
 				success: function(resData){
-					 $('#sch_list_json').empty();
+					 $('#products').empty();
 					 	console.log(resData)
-	                    $.each(resData.items, (i, item)=>{
-	                    	 var tr = $('<tr>');
-	                         tr.append($('<td>').html($('<a>').attr('target', '_blank').attr('href', item.link).append(item.title)));
-	                         tr.append($('<td>').html($('<a>').attr('target', '_blank').attr('href', item.link).append($('<img>').attr('src', item.image).attr('width', '80px').attr('height', '120px'))));
-	                         tr.append($('<td>').html($('<span>').text(item.lprice + '원')));
-	                         tr.append($('<td>').html(item.mallName));
-	                         $('#sch_list_json').append(tr);
+	                    $.each(resData.items, (i, product)=>{
+	                    	var tr = '<tr>';
+							tr += '<td><a href="' + product.link + '">' + product.title + '</a></td>'; 
+							tr += '<td><a href="' + product.link + '"><img width="200px" src="' + product.image + '" alt="' + product.title + '"></a></td>';
+							tr += '<td>' + product.lprice + '</td>';
+							tr += '<td>' + product.mallName + '</td>';
+							tr += '</tr>';
+							$('#products').append(tr);
 	                     });
 	            },
-				error: function(jqXHR){
-					if(jqXHR.status == 503){  // HttpStatus.SERVICE_UNAVAILABLE는 503이다.
-						alert('검색 서비스 사용이 불가합니다. 입력 정보를 확인하세요.');
-					}
+	            error: function(jqXHR){
+					alert(jqXHR.responseText);
 				}
 			})
 		}
