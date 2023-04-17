@@ -17,7 +17,7 @@ import com.gdu.app03.service.ISecondService;
 public class SecondController {
 
 	
-	private ISecondService secondService;   // 필드이름을 bean의 아이디랑 같게 쓰는 게 좋다. 빈의 아이디로 등록한 거 그대로 맞춰서 써줘라
+	private ISecondService secondService;   // 필드이름(secondService)을 bean의 아이디(secondService랑 같게 쓰는 게 좋다. 빈의 아이디로 등록한 거 그대로 맞춰서 써줘라
 	
 	// 생성자로 빈 가져오기 : @Autowired로 생성자로 빈가져오기 == 롬복 @AllargsConstructor 애너테이션이랑 똑같넹..? 롬복으로 대체해도 된다.
 	// @AllargsConstructor으로 아래 생성자를 대체해도 좋다!!
@@ -27,7 +27,7 @@ public class SecondController {
 		this.secondService = secondService;   // 이렇게 빈이 매개변수를 거쳐서 필드에 주입된다.
 	}
 	
-	// @ResponseBody 필요없다!
+	// @ResponseBody 필요없다! 메소드의 반환타입을 ResponseEntity로 해서 그런듯!?
 	@GetMapping(value="/second/bmi1", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BmiVO> bmi1(HttpServletRequest request) {
 		return secondService.execute1(request);
