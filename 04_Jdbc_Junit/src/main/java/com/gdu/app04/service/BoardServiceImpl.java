@@ -34,9 +34,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDTO> getBoardList() {
-		
-		List<BoardDTO> list = boardDAO.selectBoardList();
-		return list;
+		return boardDAO.selectBoardList();
 	}
 
 	@Override
