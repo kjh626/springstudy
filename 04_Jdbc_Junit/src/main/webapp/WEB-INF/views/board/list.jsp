@@ -13,6 +13,19 @@
 <script src="${contextPath}/resources/summernote-0.8.18-dist/summernote-lite.min.js"></script>
 <script src="${contextPath}/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/summernote-0.8.18-dist/summernote-lite.min.css">
+<style>
+	tbody tr:hover {
+		background-color: beige;
+		cursor: pointer;
+	}
+</style>
+<script>
+	// 05_Mybatis/src/main/webapp/bbs/list.jsp 참고
+	function fnDetail(n){
+		location.href = '${contextPath}/board/detail.do?board_no=' + n;
+	}
+	
+</script>
 </head>
 <body>
 
@@ -37,7 +50,7 @@
 				</c:if>
 				<c:if test="${not empty boardList}">
 					<c:forEach items="${boardList}" var="b">
-						<tr>  <%-- b.getTitle()처럼 자바문법으로 쓸 수도 있는데.. b.title이 그 일을 하는 거니 그냥 필드 호출하듯이 b.title로 써라 --%>
+						<tr onclick="fnDetail(${b.board_no})">  <%-- b.getTitle()처럼 자바문법으로 쓸 수도 있는데.. b.title이 그 일을 하는 거니 그냥 필드 호출하듯이 b.title로 써라 --%>
 							<td>${b.title}</td>
 							<td>${b.writer}</td>
 							<td>${b.created_at}</td>
