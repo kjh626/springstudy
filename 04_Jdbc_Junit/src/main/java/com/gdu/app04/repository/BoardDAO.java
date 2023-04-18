@@ -45,7 +45,7 @@ public class BoardDAO {
 	
 	// DAO 메소드 (BoardServiceImpl 클래스에서 사용하는 메소드)
 	// DAO 메소드명
-	// 방법1. BoardServiceImpl의 메소드와 이름을 맞춤
+	// 방법1. BoardServiceImpl의 메소드와 이름을 맞춤 -> 선생님 나가서 만들라고하면 이걸로 한다고 함
 	// 방법2. DB 친화적으로 새 이름을 부여 (이론상 권장)
 	
 	// 1. 목록

@@ -1,7 +1,5 @@
 package com.gdu.app04.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,6 +59,13 @@ public class BoardController {
 	public String remove(@RequestParam(value="board_no", required = false, defaultValue = "0") int board_no) {
 		boardService.removeBoard(board_no);
 		return "redirect:/board/list.do";
+	}
+	
+	@PostMapping("modify.do")
+	public String modify(BoardDTO board) {
+		boardService.modifyBoard(board);
+		// detail.do로 넘어가려면 파라미터로 board_no가 있어야 한다. 위에 매핑detail.do 받는 거 봐라.
+		return "redirect:/board/detail.do?board_no=" + board.getBoard_no();
 	}
 	
 
