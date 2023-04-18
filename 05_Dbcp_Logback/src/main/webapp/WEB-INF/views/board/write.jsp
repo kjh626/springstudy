@@ -14,8 +14,9 @@
 <script src="${contextPath}/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/summernote-0.8.18-dist/summernote-lite.min.css">
 <script>
+
 	function fnList(){
-		location.href='${contextPath}/board/list.do';	
+		location.href = '${contextPath}/board/list.do'
 	}
 	$(function(){
 		$('#content').summernote({
@@ -32,9 +33,9 @@
 				['insert', ['link', 'picture', 'video']],
 				['view', ['fullscreen', 'codeview', 'help']]
 			]
-			
-		});
+		})
 	})
+	
 </script>
 </head>
 <body>
@@ -52,7 +53,7 @@
 			</div>
 			<div>
 				<div><label for="content">내용</label></div>
-				<textarea id="content" name="content"></textarea>   <!-- summernote 편집기로 바뀌는 textarea -->
+				<textarea id="content" name="content"></textarea>  <!-- summernote 편집기로 바뀌는 textarea -->
 			</div>
 			<div>
 				<button>작성완료</button>
