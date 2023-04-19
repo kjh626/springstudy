@@ -46,7 +46,10 @@ public class BoardController {
 	
 	@GetMapping("/detail.do")
 	public String detail(@RequestParam(value="board_no", required=false, defaultValue="0") int board_no, Model model) {
-		model.addAttribute("b", boardService.getBoardByNo(board_no));
+		LOGGER.debug(board_no + "");  // 파라미터 확인
+		BoardDTO b = boardService.getBoardByNo(board_no);
+		LOGGER.debug(b.toString());  // 상세 결과 확인
+		model.addAttribute("b", b);
 		return "board/detail";
 	}
 	
