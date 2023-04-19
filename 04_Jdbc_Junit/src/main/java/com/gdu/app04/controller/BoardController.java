@@ -55,13 +55,13 @@ public class BoardController {
 		return "board/detail";
 	}
 	
-	@GetMapping("remove.do")
+	@GetMapping("/remove.do")
 	public String remove(@RequestParam(value="board_no", required = false, defaultValue = "0") int board_no) {
 		boardService.removeBoard(board_no);
 		return "redirect:/board/list.do";
 	}
 	
-	@PostMapping("modify.do")
+	@PostMapping("/modify.do")
 	public String modify(BoardDTO board) {
 		boardService.modifyBoard(board);
 		// detail.do로 넘어가려면 파라미터로 board_no가 있어야 한다. 위에 매핑detail.do 받는 거 봐라.
