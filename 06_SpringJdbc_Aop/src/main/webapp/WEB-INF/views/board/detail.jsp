@@ -55,10 +55,10 @@
 
 	<div id="detail_screen">
 		<h1>${b.board_no}번 게시글 상세보기</h1>
-		<div>제목:${b.title}</div>
-		<div>작성자:${b.writer}</div>
-		<div>작성일:${b.created_at}</div>
-		<div>수정일:${b.modified_at}</div>
+		<div>제목 : ${b.title}</div>
+		<div>작성자 : ${b.writer}</div>
+		<div>작성일 : ${b.created_at}</div>
+		<div>수정일 : ${b.modified_at}</div>
 		<div>${b.content}</div>
 		<div>
 			<input type="button" value="편집" onclick="fnEdit()">
@@ -68,7 +68,7 @@
 	</div>
 	
 	<div id="edit_screen">
-		<div style="cursor: pointer;" onclick="fnBack()"><i class="fa-solid fa-arrow-left"></i>  뒤로가기</div>
+		<div style="cursor: pointer;" onclick="fnBack()"><i class="fa-solid fa-arrow-left"></i> 뒤로 가기</div>
 		<h1>편집화면</h1>
 		<form method="post" action="${contextPath}/board/modify.do">
 			<div>
@@ -76,8 +76,8 @@
 				<input type="text" id="title" name="title" value="${b.title}">
 			</div>
 			<div>
-				<div><label for="content">내용ㅇ</label></div>
-				<textarea id="content" name="content">${b.content}</textarea>
+				<div><label for="content">내용</label></div>
+				<textarea id="content" name="content">${b.content}</textarea>  <!-- summernote 편집기로 바뀌는 textarea -->
 			</div>
 			<div>
 				<input type="hidden" name="board_no" value="${b.board_no}">

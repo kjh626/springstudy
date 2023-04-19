@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MvcController {
 
 	@GetMapping("/")
-	public String index() {
+	public String welcome() {
 		return "index";
 	}
+	
 }

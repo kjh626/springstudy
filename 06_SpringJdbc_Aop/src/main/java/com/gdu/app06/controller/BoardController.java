@@ -1,9 +1,5 @@
 package com.gdu.app06.controller;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,16 +15,14 @@ import com.gdu.app06.service.BoardService;
 @Controller
 public class BoardController {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
-	
 	@Autowired
 	private BoardService boardService;
+
+	// ParameterCheckAOP에 의해서 파라미터를 체크할 메소드의 이름은 모두 ParamCheck로 끝난다. 
 	
 	@GetMapping("/list.do")
 	public String list(Model model) {
-		List<BoardDTO> list = boardService.getBoardList();
-		LOGGER.debug(list.toString());  // 목록 결과 확인
-		model.addAttribute("boardList", list);
+		model.addAttribute("boardList", boardService.getBoardList());
 		return "board/list";
 	}
 	
@@ -38,30 +32,35 @@ public class BoardController {
 	}
 	
 	@PostMapping("/add.do")
-	public String add(BoardDTO board) {
-		LOGGER.debug(board.toString());  // 파라미터 확인
-		LOGGER.debug(boardService.addBoard(board) + "");  // 결과 확인
+	public String addParamCheck(BoardDTO board) {
+		boardService.addBoard(board);
 		return "redirect:/board/list.do";
 	}
 	
 	@GetMapping("/detail.do")
-	public String detail(@RequestParam(value="board_no", required=false, defaultValue="0") int board_no, Model model) {
-		LOGGER.debug(board_no + "");  // 파라미터 확인
-		BoardDTO b = boardService.getBoardByNo(board_no);
-		LOGGER.debug(b.toString());  // 상세 결과 확인
-		model.addAttribute("b", b);
+	public String detailParamCheck(@RequestParam(value="board_no", required=false, defaultValue="0") int board_no
+			           , Model model) {
+		model.addAttribute("b", boardService.getBoardByNo(board_no));
 		return "board/detail";
 	}
 	
+	@GetMapping("/remove.do")
+	public String removeParamCheck(@RequestParam(value="board_no", required=false, defaultValue="0") int board_no) {
+		boardService.removeBoard(board_no);
+		return "redirect:/board/list.do";
+	}
+	
 	@PostMapping("/modify.do")
-	public String modify(BoardDTO board) {
+	public String modifyParamCheck(BoardDTO board) {
 		boardService.modifyBoard(board);
 		return "redirect:/board/detail.do?board_no=" + board.getBoard_no();
 	}
 	
-	@GetMapping("/remove.do")
-	public String remove(@RequestParam(value="board_no", required=false, defaultValue="0") int board_no) {
-		boardService.removeBoard(board_no);
+	// 트랜잭션 처리 확인을 위한 testTx() 메소드 호출하기
+	@GetMapping("/tx.do")  // http://localhost:9090/app06/board/tx.do
+	public String tx() {
+		boardService.testTx();
 		return "redirect:/board/list.do";
 	}
+	
 }
