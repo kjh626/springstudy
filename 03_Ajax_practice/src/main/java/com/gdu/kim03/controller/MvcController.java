@@ -15,4 +15,25 @@ public class MvcController {
 	public String first() {
 		return "first";
 	}
+	
+
+	@GetMapping("/second.prac")
+	public String second() {
+		return "second";
+	}
+	
+	@GetMapping("/third.prac")
+	public String third() {
+		return "third";
+	}
+	
+	@GetMapping("/fourth.prac")
+	public String fourth() {
+		return "fourth";
+	}
+	@GetMapping("/fifth.prac")
+	public String fifth() {
+		return "fifth";
+	}
+	
 }

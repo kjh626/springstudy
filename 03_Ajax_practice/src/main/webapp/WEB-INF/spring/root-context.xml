@@ -6,5 +6,5 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 	<bean id="firstService" class="com.gdu.kim03.service.FirstServiceImpl" />
-		
+	<bean id="secondService" class="com.gdu.kim03.service.SecondServiceImpl" /> 
 </beans>
