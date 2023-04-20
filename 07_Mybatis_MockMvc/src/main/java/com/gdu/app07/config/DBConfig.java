@@ -49,7 +49,7 @@ public class DBConfig {
 	
 	// SqlSessionFactory Bean
 	@Bean
-	public SqlSessionFactory factory() throws Exception{ // 쿼리문 처리하는 애라서 try-catch 필요해서 예외 던져버
+	public SqlSessionFactory factory() throws Exception { // 쿼리문 처리하는 애라서 try-catch 필요해서 예외 던져버림
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 		bean.setDataSource(dataSource());
 		bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(env.getProperty("mybatis.config-location")));  // 프로퍼티에 있는 그 정보
