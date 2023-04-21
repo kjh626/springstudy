@@ -78,8 +78,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int removeBoard(HttpServletRequest request) {
 		try {
-			// remove를 GET으로 요청하는 방법, POST로 요청하는 방법
-			// GET은 구현이 쉽다. 만약에 누군가가 /remove.do?boardNo=1 이런 코드를 사용하는 것을 알았으면 권한도 없는 사용자가 주소에 입력하면 지워진다. 구현은 편하지만 삭제를 아는 사용자가 있으면 지워질 수 있다.
+			// remove를 GET으로 요청하는 방법, POST로 요청하는 방법 있다.
+			// GET은 구현이 쉽다. 하지만 만약에 누군가가 /remove.do?boardNo=1 이런 코드를 사용하는 것을 알았으면 권한도 없는 사용자가 주소에 입력하면 지워진다. 구현은 편하지만 삭제를 아는 사용자가 있으면 지워질 수 있다.
 			// POST는 주소창에 조작 불가능. POST방식으로 바꿀 것이다. (코드로 조작할 수밖에 없다.<- 개발자 문제)
 			// GET요청으로 되어있는 삭제쪽 jsp를 POST요청 방식으로 바꿔야 함.
 			// 파라미터 boardNo를 받아온다. 
@@ -92,8 +92,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	// 트랜잭션 확인
-	// @Transactional 을 붙여준다. 메소드가 실행할 때 트랜잭션 처리가 된다. (쉬운 방법) => ★ 언제 붙여야 돼? insert, delete, update를 2개 이상 사용할 때 ★
-	// 훨씬 쉽게 트랜잭션 처리 가능! AOP보다..(AOP는 AOP에 맡기는 것.) => 내가 @Transactional 빼먹을까봐, 일반적으로 aop에 모든 메소드(+모든 Impl)에 트랜잭션을 걸겠다는 게 기저에 깔려있다고 보면 된다. 무조건 해라.. (성능 고려하지 않고 하는..)
+	// @Transactional 을 붙여준다. 메소드가 실행할 때 트랜잭션 처리가 된다. (쉬운 방법) => ★ 언제 붙여야 돼? insert, update, delete를 2개 이상 사용할 때 ★
+	// 훨씬 쉽게 트랜잭션 처리 가능! AOP보다..(AOP는 AOP에 맡기는 것.) => 내가 @Transactional 빼먹을까봐, 일반적으로 aop에 모든 메소드(+모든 Impl)에 트랜잭션을 걸겠다는 게 기저에 깔려있다고 보면 된다. 무조건 트랜잭션해라.. (성능 고려하지 않고 하는..)
 	// insert, update, delete 하나일 때 붙여줄 필요 없음!
 	// => 방법 2가지 1. AOP 사용, 2. @Transactional 사용
 	@Transactional

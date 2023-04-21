@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 mybatis.mapper.board.xml 파일을 의미한다. -->
+<mapper namespace="mybatis.mapper.board">
+	
+	<!-- 
+		parameterType : DAO에서 mapper로 받아오는 값의 타입
+		resultType    : mapper에서 DAO로 반환하는 값의 타입(insert, update, delete는 사용하지 못한다.) 
+	-->
+	
+</mapper>

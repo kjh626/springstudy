@@ -40,6 +40,7 @@ public class DBConfig {
 	}
 	
 	// HikariDataSource Bean (자동완성의 두번째 생성자로 히카리컨피그 넣는 거 있다)
+	// destroyMethod="close" : bean 객체의 스코프가 끝날을 경우(스프링에서는 어플리케이션 컨텍스트가 종료되었을 경우로 생각하면 되겠다.) class 속성에 선언한 클래스의 close 메서드를 호출하는 의미이다.
 	@Bean(destroyMethod="close")
 	public HikariDataSource hikariDataSource() {
 		return new HikariDataSource(hikariConfig());
