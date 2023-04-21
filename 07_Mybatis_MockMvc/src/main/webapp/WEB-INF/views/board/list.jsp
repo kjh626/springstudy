@@ -26,14 +26,14 @@
 	$(function(){
 		// 삽입을 했을 땐 addResult에 값을 저장시켜주지만, index에서 넘어갈 때는 addResult값을 보내지 않는다.
 		// ${addResult} 가 항상 있는 게 아니다. 전달된 값이 없을 수도 있다. addResult가 전달이 안 되면 -> 비어있다. let addResult = ;  이 상태다 => 이대로 실행하면 빨간줄
-		//let addResult = ${addResult};  // EL은 항상 변수 처리되는 부분이다. 이렇게 변수 만들면 안 된다. -> '' 로 문자열로 만들어준다.
+		//let addResult = ${addResult};  // EL은 항상 변수 처리되는 부분이다. 이렇게 변수 만들면 안 된다. -> ' ' 로 문자열로 만들어준다.
 		let addResult = '${addResult}';   // let addResult = '1';  삽입 성공
 		                                  // let addResult = '0';  삽입 실패
 		                                  // let addResult = '';   삽입과 상관 없음
 		if(addResult != '') {
 			if(addResult == '1'){
 				alert('게시글이 등록되었습니다.');
-			} else{
+			} else {
 				alert('게시글 등록이 실패했습니다.');
 			}
 		}

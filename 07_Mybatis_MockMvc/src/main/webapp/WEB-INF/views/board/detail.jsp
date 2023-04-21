@@ -54,7 +54,7 @@
 		if(modifyResult != '') {
 			if(modifyResult == '1'){
 				alert('게시글이 수정되었습니다.');
-			} else{
+			} else {
 				alert('게시글 수정이 실패했습니다.');
 			}
 		}

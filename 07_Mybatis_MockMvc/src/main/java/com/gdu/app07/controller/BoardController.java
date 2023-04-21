@@ -64,7 +64,7 @@ public class BoardController {
 	
 	// addBoard() 서비스가 반환한 0 또는 1을 가지고 /board/list.do으로 이동(redirect)한다.  (addboard() → list.do → list.jsp)
 	// 여기서 list.do로 보낸 0 또는 1의 값을 다시 forward하는 list.jsp까지 보낼 수 있다. => RedirectAttributes을 쓰면 된다. 메소드는 ★addFlashAttribute★ = Flash Flash =
-	// 차이점 : 애트리뷰트로 실으면 list.do까지는 가지만, list.jsp까지는 못 간다. 플래시로 실으면 list.jsp까지 간다.
+	// 		차이점 : addAttribute로 실으면 list.do까지는 가지만, list.jsp까지는 못 간다. Flash로 실으면 list.jsp까지 간다.
 	//     => addBoard() 서비스가 반환한 0 또는 1은 WEB-INF/views/board/list.jsp에서 확인한다.  ( jsp에서 EL형태로 확인 가능 ${addResult} )
 	@PostMapping("/add.do")
 	public String add(HttpServletRequest request, RedirectAttributes redirectAttributes) {
@@ -80,7 +80,7 @@ public class BoardController {
 		return "redirect:/board/detail.do?boardNo=" + request.getParameter("boardNo");
 	}
 	
-	// removeBoard() 서비스가 반환한 0 또는 1을 가지고 /board/remove.do으로 이동(redirect)한다.
+	// removeBoard() 서비스가 반환한 0 또는 1을 가지고 /board/list.do으로 이동(redirect)한다.
 	// removeBoard() 서비스가 반환한 0 또는 1은 WEB-INF/views/board/remove.jsp에서 확인한다.
 	@PostMapping("/remove.do")
 	public String remove(HttpServletRequest request, RedirectAttributes redirectAttributes) {

@@ -48,7 +48,7 @@ public class DBConfig {
 	
 	
 	// SqlSessionFactory Bean
-	//          빈의 타입↓이고 빈의 이름↓
+	//          빈의 타입↓   이고 빈의 이름↓
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws Exception { // 쿼리문 처리하는 애라서 try-catch 필요해서 예외 던져버림
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();

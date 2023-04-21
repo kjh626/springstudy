@@ -24,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO getBoardByNo(HttpServletRequest request) {
 		// 파라미터 boardNo가 없으면(null, "") 0을 사용한다. (null은 택배가 오질 않았다. 빈 문자열은 열었는데 빈 상자)
-		// 두가지를 다 대비하려면 고전타입으로 하면 된다. optional은 빈 문자열 처리 못한다.
+		// 두가지를 다 대비하려면 고전타입으로 하면 된다. optional은 null만 처리가능, 빈 문자열 처리 못한다.
 		// GET방식으로 하기때문에 주소창에 조작 가능해서.. null, 빈문자열 if로 처리
 		String strBoardNo = request.getParameter("boardNo");
 		int boardNo = 0;
