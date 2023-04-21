@@ -17,7 +17,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 //@PropertySource: 프로퍼티 파일좀 읽어와라(value의 반환타입은 []배열이라 중괄호로 적음, 파일이름만 적은 이유는 resources폴더 밑에 바로 있어서)
-@PropertySource(value={"classpath:applcation.properties"})  // applcation.properties 파일의 속성을 읽어 오자!   -> Environment 랑 세트라고 생각.
+@PropertySource(value={"classpath:application.properties"})  // applcation.properties 파일의 속성을 읽어 오자!   -> Environment 랑 세트라고 생각.
 @EnableTransactionManagement  // 트랜잭션 처리를 허용한다. (DBConfig에서 앞으로도 계속 사용할 애너테이션)
 @Configuration
 public class DBConfig {
