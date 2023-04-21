@@ -93,7 +93,7 @@ public class DBConfig {
 		
 		// 포인트컷 설정(어드바이스(트랜잭션)를 동작시킬 메소드)
 		AspectJExpressionPointcut pointCut = new AspectJExpressionPointcut();
-		pointCut.setExpression("execution(* com.gdu.app06.service.BoardServiceImpl.*Tx(..))");  // BoardServiceImpl 클래스에 있는 메소드 중에서 이름이 Tx로 끝나는 메소드
+		pointCut.setExpression("execution(* com.gdu.app06.service.BoardServiceImpl.*Tx(..))");  // BoardServiceImpl 클래스에 있는 메소드 중에서 이름이 Tx로 끝나는 메소드 에서 동작을 시킴.
 		
 		return new DefaultPointcutAdvisor(pointCut, transactionInterceptor());  // pointCut으로 등록된 메소드에 transactionInterceptor()를 동작시킨다.
 		

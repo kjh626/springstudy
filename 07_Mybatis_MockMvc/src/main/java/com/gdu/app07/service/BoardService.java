@@ -18,4 +18,5 @@ public interface BoardService {
 	public int modifyBoard(HttpServletRequest request);
 	// 삭제는 request에서 boardNo만 뽑아주면 됨.
 	public int removeBoard(HttpServletRequest request);
+	public void testTx();
 }

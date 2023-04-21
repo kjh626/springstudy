@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gdu.app07.service.BoardService;
 import com.gdu.app07.service.BoardServiceImpl;
 
 @Controller
@@ -20,7 +21,7 @@ public class BoardController {
 	@Autowired
 	// BoardService라고 해도 되고, BoardServiceImpl이라고 타입을 선언해줘도 된다.
 	// 인터페이스로 만들어져 있을 때는 인터페이스 타입으로 사용할 수 있기 때문에 예전에 인터페이스 타입으로 선언해준 것.
-	private BoardServiceImpl boardService;
+	private BoardService boardService;
 	
 	// 전날 본 평가처럼 jsp로 받는 파라미터를 Controller에서는 (3가지 방법 중) request로 전부 받을 것이다. => request에서 알아서 꺼내서 쓰면 된다. 모든 파라미터 작업을 서비스가 할 것이다.
 	
@@ -87,5 +88,13 @@ public class BoardController {
 		redirectAttributes.addFlashAttribute("removeResult" ,boardService.removeBoard(request));
 		return "redirect:/board/list.do";
 	}
+	
+	
+	// 트랜잭션 테스트 (GetMapping 인 이유는? 주소창에 조작해줄라고)
+	@GetMapping("/tx.do")
+	public void tx() {
+		boardService.testTx();
+	}
+	
 	
 }
