@@ -17,7 +17,23 @@ public class BoardDAO {
 	private final String NS = "mybatis.mapper.board.";
 	
 	public List<BoardDTO> selectBoardList(){
-		return null;
+		return sqlSessionTemplate.selectList(NS + "selectBoardList");
+	}
+	
+	public BoardDTO selectBoardByNo(int boardNo) {
+		return sqlSessionTemplate.selectOne(NS + "selectBoardByNo", boardNo);
+	}
+	
+	public int insertBoard(BoardDTO board) {
+		return sqlSessionTemplate.insert(NS + "insertBoard", board);
+	}
+	
+	public int updateBoard(BoardDTO board) {
+		return sqlSessionTemplate.update(NS + "updateBoard", board);
+	}
+	
+	public int deleteBoard(int boardNo) {
+		return sqlSessionTemplate.delete(NS + "deleteBoard", boardNo);
 	}
 	
 }
