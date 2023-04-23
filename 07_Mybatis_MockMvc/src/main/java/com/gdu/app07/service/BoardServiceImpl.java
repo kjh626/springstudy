@@ -96,7 +96,7 @@ public class BoardServiceImpl implements BoardService {
 	// 훨씬 쉽게 트랜잭션 처리 가능! AOP보다..(AOP는 AOP에 맡기는 것.) => 내가 @Transactional 빼먹을까봐, 일반적으로 aop에 모든 메소드(+모든 Impl)에 트랜잭션을 걸겠다는 게 기저에 깔려있다고 보면 된다. 무조건 트랜잭션해라.. (성능 고려하지 않고 하는..)
 	// insert, update, delete 하나일 때 붙여줄 필요 없음!
 	// => 방법 2가지 1. AOP 사용, 2. @Transactional 사용
-	@Transactional
+	@Transactional(readOnly=true)  // 성능 향상을 위해서 readOnly=true 추가
 	@Override
 	public void testTx() {
 		boardDAO.insertBoard(new BoardDTO(0, "타이틀", "콘텐트", "롸이터", null, null));  // 성공!
