@@ -61,5 +61,15 @@
 			</foreach>
 		</where>
 	</delete>
+	
+	<!-- 셀렉트 써서 지금 이 시간에 게시글이 몇 개다 를 보여줄 수 있게 함 -->
+	<select id="SelectBoardCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM BOARD
+	</select>
+	
+	
+	
+	
 
 </mapper>

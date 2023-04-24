@@ -56,6 +56,14 @@
 	}
 	
 </script>
+<style>
+	.screen_out {
+		display: none;
+	}
+	#lbl_chk_all {
+		cursor: pointer;
+	}
+</style>
 </head>
 <body>
 
@@ -73,7 +81,7 @@
 					<tr>
 						<td>
 							<label for="chk_all" id="lbl_chk_all">전체선택</label>
-							<input type="checkbox" id="chk_all">
+							<input type="checkbox" id="chk_all" class="screen_out">
 						</td>
 						<td>제목</td>
 						<td>작성자</td>
@@ -86,7 +94,7 @@
 							<td colspan="4">첫 게시글의 주인공이 되어 보세요!</td>
 						</tr>
 					</c:if>
-					<c:if test="${not empty boardList}">					
+					<c:if test="${not empty boardList}">
 						<c:forEach items="${boardList}" var="b">
 							<tr>
 								<td><input type="checkbox" class="chk_one" name="boardNoList" value="${b.boardNo}"></td>
