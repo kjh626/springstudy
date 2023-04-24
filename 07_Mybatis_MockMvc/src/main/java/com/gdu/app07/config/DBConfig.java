@@ -18,7 +18,10 @@ import com.zaxxer.hikari.HikariDataSource;
 
 //@PropertySource: 프로퍼티 파일좀 읽어와라(value의 반환타입은 []배열이라 중괄호로 적음, 파일이름만 적은 이유는 resources폴더 밑에 바로 있어서)
 @PropertySource(value={"classpath:application.properties"})  // applcation.properties 파일의 속성을 읽어 오자!   -> Environment 랑 세트라고 생각.
-@EnableTransactionManagement  // 트랜잭션 처리를 허용한다. (DBConfig에서 앞으로도 계속 사용할 애너테이션)
+@EnableTransactionManagement(proxyTargetClass=true)          // 트랜잭션 처리를 허용한다. (DBConfig에서 앞으로도 계속 사용할 애너테이션)
+//Auto Proxy(인터페이스를 찾아서 바인딩 하는 것 : @Autowired BoardService boardService)
+//@Transactional은 Auto Proxy이기 때문에 인터페이스가 아닌 자바 클래스를 이용하려면(@Autowired BoardServiceImpl boardService)
+//클래스로 바인딩을 할 수 있도록 proxyTargetClass를 true로 해 준다. 
 @Configuration
 public class DBConfig {
 
