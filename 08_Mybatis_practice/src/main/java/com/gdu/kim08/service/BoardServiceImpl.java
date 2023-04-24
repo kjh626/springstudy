@@ -142,7 +142,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void removeBoardListBoard(HttpServletRequest request, HttpServletResponse response) {
+	public void removeBoardList(HttpServletRequest request, HttpServletResponse response) {
 
 		String[] boardNoList = request.getParameterValues("boardNoList");
 		
@@ -175,8 +175,6 @@ public class BoardServiceImpl implements BoardService {
 		int boardCount = boardMapper.SelectBoardCount();
 		String msg = "[" + LocalDateTime.now().toString() + "] 게시글 갯수는 " + boardCount + "개입니다.";
 		System.out.println(msg);
-		
-
 	}
 
 }

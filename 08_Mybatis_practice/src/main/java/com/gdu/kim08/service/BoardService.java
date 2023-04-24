@@ -13,6 +13,6 @@ public interface BoardService {
 	public void addBoard(HttpServletRequest request, HttpServletResponse response);
 	public void modifyBoard(HttpServletRequest request, HttpServletResponse response);
 	public void removeBoard(HttpServletRequest request, HttpServletResponse response);
-	public void removeBoardListBoard(HttpServletRequest request, HttpServletResponse response);
+	public void removeBoardList(HttpServletRequest request, HttpServletResponse response);
 	public void getBoardCount();
 }
