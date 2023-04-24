@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
 			out.println("<script>");
 			if(modifyResult == 1) {
 				out.println("alert('게시글이 수정되었습니다.')");
-				out.println("location.href='" + request.getContextPath() + "/board/detail.do'");
+				out.println("location.href='" + request.getContextPath() + "/board/detail.do?boardNo=" + boardNo + "'");
 			} else {
 				out.println("alert('게시글이 수정되지 않았습니다.')");
 				out.println("history.back()");
