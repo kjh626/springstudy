@@ -42,7 +42,7 @@ public class BoardControllerTest {
 	// WebApplicationContext에 의해서 생성된다.
 	private MockMvc mockMvc;
 	
-	// ctx.getBean을 썼던 클래스들에 getServletContext()가 추가된 아이이다.
+	// ctx.getBean을 썼던 클래스들에(제네릭어쩌구..) getServletContext()가 추가된 아이이다.
 	// ※ getServletContext() : 프로젝트 자체를 말한다.(application)
 	// @WebApplication이 있어야 자동 주입(@Autowired)이 가능하다.
 	@Autowired
