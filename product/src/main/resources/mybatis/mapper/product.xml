@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 @Mapper를 지정한다. -->
+<mapper namespace="com.gdu.prd.mapper.ProductMapper">
+
+	<select id="getProductList" resultType="ProductDTO"> 
+		SELECT PROD_NO, PROD_NAME, PROD_PRICE, PROD_MADE_AT
+		  FROM PRODUCT
+		 ORDER BY PROD_NO DESC
+	</select>
+	
+	<select id="getProductCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM PRODUCT
+	</select>
+	
+	<select id="getProductByNo" parameterType="int" resultType="ProductDTO">
+		SELECT PROD_NO, PROD_NAME, PROD_PRICE, PROD_MADE_AT
+		  FROM PRODUCT
+		 WHERE PROD_NO = #{prodNo}
+	</select>
+	
+	<insert id="addProduct" parameterType="ProductDTO">
+		INSERT INTO PRODUCT
+			(PROD_NO, PROD_NAME, PROD_PRICE, PROD_MADE_AT)
+		VALUES
+			(PRODUCT_SEQ.NEXTVAL, #{prodName}, #{prodPrice}, SYSDATE)
+	</insert>
+	
+	<update id="updateProduct" parameterType="ProductDTO">
+		UPDATE PRODUCT
+		   SET PROD_NAME = #{prodName}
+			 , PROD_PRICE = #{prodPrice}		   
+		 WHERE PRODUCT_NO = #{prodNo} 
+	</update>
+	
+	<delete id="deleteProduct" parameterType="int">
+		DELETE
+		  FROM PRODUCT
+		 WHERE PROD_NO = #{prodNo}
+	</delete>
+
+
+</mapper>
