@@ -12,6 +12,9 @@
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-	<a href="${contextPath}/board/list.do">게시판</a>
+
+	<div>
+		<a href="${contextPath}/employees/pagination.do">페이징</a>
+	</div>
 </body>
 </html>

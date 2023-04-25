@@ -67,4 +67,40 @@ public class PageUtil {
 	}
 	
 	
+	public String getPagination(String path) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		//   1 2 3 4 5 > 이런 모양새
+		// < 6 7 8 9 10 >
+		// < 11
+		// 3가지 관점: 이전 블록 / 페이지번호 / 다음 블록
+		
+		// 이전 블록 : 1블록은 이전 블록이 없고, 나머지 블록은 이전 블록이 없다.
+		if(beginPage == 1) { // 1블록
+			sb.append("<span class=\"hidden\">◀</span>");
+		} else {	// 나머지 블록
+			sb.append("<a class=\"link\" href=\""+ path + "?page=" + (beginPage - 1) +"\">◀</a>");
+		}
+		
+		// 페이지번호 : 현재 페이지는 링크가 없다.
+		for(int p = beginPage; p <= endPage; p++) {
+			if(p == page) {
+				sb.append("<span class=\"strong\">" + p + "</span>");
+			} else {
+				sb.append("<a class=\"link\" href=\""+ path +"?page=" + p + "\">" + p + "</a>");
+			}
+		}
+		
+		// 다음 블록 : 마지막 블록은 다음 블록이 없고, 나머지 블록은 다음 블록이 있다.
+		if(endPage == totalPage) {
+			sb.append("<span class=\"hidden\">▶</span>");
+		} else {
+			sb.append("<a class=\"link\" href=\"" + path +"?page=" + (endPage + 1) + "\">▶</a>");
+		}
+		
+		return sb.toString();
+		
+	}
+	
 }

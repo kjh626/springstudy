@@ -17,8 +17,8 @@ public class EmpDTO {
 	private String phoneNumber;
 	private Date hireDate;
 	private String jobId;
-	private double commissionPct;
 	private double salary;
+	private double commissionPct;
 	private int managerId;
 	// private int departmentId;
 	private DeptDTO deptDTO;

@@ -23,7 +23,7 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 	
 	// field 빈이 2개 적혀있으면, 일반적으로 생성자나 메소드로 처리
 	private EmployeeListMapper employeeListMapper;
-	private PageUtil pageutil;
+	private PageUtil pageUtil;
 
 	@Override
 	public void getEmployeeListUsingPagination(HttpServletRequest request, Model model) {
@@ -41,12 +41,12 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		int recordPerPage = (int) (opt2.orElse(10));
 		
 		// PageUtil(Pagination에 필요한 모든 정보(9개 필드값)) 계산하기
-		pageutil.setPageUtil(page, totalRecord, recordPerPage);
+		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
 		
 		// DB로 보낼 Map 만들기(PageUtil에서 계산한 begin과 end값 가져다 map에 저장)
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("begin", pageutil.getBegin());
-		map.put("end", pageutil.getEnd());
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
 		
 		// begin ~ end 사이의 목록 가져오기
 		List<EmpDTO> employees = employeeListMapper.getEmployeeListUsingPagination(map); 
@@ -54,7 +54,7 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		// pagination.jsp로 전달할(forward)할 정보를 저장하기
 		model.addAttribute("employees", employees);
 		// jsp에서 쓸 ${pagination} 만들어서 보내줘야한다.
-		model.addAttribute("pagination", "1 2 3 4 5");
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do"));
 	}
 
 }
