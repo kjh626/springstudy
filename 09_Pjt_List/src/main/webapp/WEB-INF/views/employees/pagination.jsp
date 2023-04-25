@@ -23,12 +23,16 @@
 	<div>
 		<h1>사원 목록</h1>
 		<div>
-			<select>
+			<select id="recordPerPage">
 				<option value="10">10개</option>
 				<option value="20">20개</option>
 				<option value="30">30개</option>
 			</select>
 		</div>
+		<%-- select값이 change 되었다는 이벤트메소드가 필요하다. (recordPerPage)
+		     그리고 이 정보를 어디에다가 저장해둘 것인가? 
+		     파라미터는x => session으로 할 예정. 세션으로 저장하면 어디서든 빼서 쓸 수 있다.(페이지가 이동하더라도.. (10개) 여전히 유지하고 있을 것) 
+		--%>
 		
 		<%-- 프로젝트 할 때는 <hr>쓰지 말고 css로 이쁘게 해라 --%>
 		<hr>
