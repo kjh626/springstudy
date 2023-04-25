@@ -23,6 +23,25 @@
 		$('#recordPerPage').val(recordPerPage);
 	})
 </script>
+<style>
+	.pagination {
+		width: 350px;
+		margin: 0 auto;
+	}
+	.pagination span, .pagination a {
+		display: inline-block;
+		width: 50px;
+	}
+	.hidden {
+		visibility: hidden;
+	}
+	.strong {
+		font-weight: 900;
+	}
+	.link {
+		
+	}
+</style>
 </head>
 <body>
 
@@ -89,7 +108,7 @@
 				<tr>
 					<td colspan="12">
 						<%-- 숫자 1 2 3 이렇게 만들어서 한번에 뿌리려고 이렇게 함 --%>
-						<div>${pagination}</div>
+						${pagination}
 					</td>
 				</tr>
 			</tfoot>

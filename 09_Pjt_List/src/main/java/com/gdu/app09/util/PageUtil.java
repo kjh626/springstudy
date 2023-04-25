@@ -76,6 +76,8 @@ public class PageUtil {
 		// < 11
 		// 3가지 관점: 이전 블록 / 페이지번호 / 다음 블록
 		
+		sb.append("<div class=\"pagination\">");
+		
 		// 이전 블록 : 1블록은 이전 블록이 없고, 나머지 블록은 이전 블록이 없다.
 		if(beginPage == 1) { // 1블록
 			sb.append("<span class=\"hidden\">◀</span>");
@@ -98,6 +100,7 @@ public class PageUtil {
 		} else {
 			sb.append("<a class=\"link\" href=\"" + path +"?page=" + (endPage + 1) + "\">▶</a>");
 		}
+		sb.append("</div>");
 		
 		return sb.toString();
 		
