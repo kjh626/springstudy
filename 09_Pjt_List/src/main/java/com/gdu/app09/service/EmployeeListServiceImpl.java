@@ -40,6 +40,12 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		Optional<Object> opt2 = Optional.ofNullable(session.getAttribute("recordPerPage"));
 		int recordPerPage = (int) (opt2.orElse(10));
 		
+		// 파라미터 order (DESC가 넘어왔다고 생각해라)
+		// 항상 오지 않음. 안 눌렀을 때 오지 않는다. 페이지처럼 첫 화면일 때 오지 않는다. => 첫 기본 정렬은 오름차순으로 하자 (우리가 정한다 ASC)
+		// 파라미터 order가 전달되지 않는 경우 page=ASC 로 처리한다.
+		Optional<String> opt3 = Optional.ofNullable(request.getParameter("order"));
+		String order = opt3.orElse("ASC");    // 이 받은 파라미터를 DB로 보내야한다. -> DB로 보낼 Map 에서 작업(map.put())
+		
 		// PageUtil(Pagination에 필요한 모든 정보(9개 필드값)) 계산하기
 		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
 		
@@ -47,6 +53,7 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
+		map.put("order", order);
 		
 		// begin ~ end 사이의 목록 가져오기
 		List<EmpDTO> employees = employeeListMapper.getEmployeeListUsingPagination(map); 
@@ -54,7 +61,22 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		// pagination.jsp로 전달할(forward)할 정보를 저장하기
 		model.addAttribute("employees", employees);
 		// jsp에서 쓸 ${pagination} 만들어서 보내줘야한다.
-		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do"));
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do?order=" + order));
+		/*
+			순번 붙이기 - 맨 처음이 107, 첫번째 사람의 번호만 구하면 된다. 그리고 인덱스를 빼면 됨
+			beginNo = totalRecord - (page - 1) * recordPerPage 
+						107 - (1-1)*10 = 107 
+						107 - (2-1)*10 = 97
+						107 - 20       = 87
+		*/
+		model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
+		
+		// ServiceImpl에서 jsp로 전달할 데이터 작성(ASC(service)→jsp로 DESC 전달)
+		switch(order) {
+		case "ASC" : model.addAttribute("order", "DESC"); break;   // 현재 ASC 정렬이므로 다음 정렬은 DESC이라고 Jsp에 알려준다.
+		case "DESC" : model.addAttribute("order", "ASC"); break;   // 현재 DESC 정렬이므로 다음 정렬은 ASC이라고 Jsp에 알려준다.
+		}
+		model.addAttribute("page", page);
 	}
 
 }

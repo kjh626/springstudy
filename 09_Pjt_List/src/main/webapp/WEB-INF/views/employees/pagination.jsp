@@ -21,6 +21,23 @@
 		// 세션에 저장된 recordPerPage값으로 <select> 태그의 값을 세팅
 		let recordPerPage = '${sessionScope.recordPerPage}' == '' ? '10' : '${sessionScope.recordPerPage}';
 		$('#recordPerPage').val(recordPerPage);
+		// 제목을 클릭하면 정렬 방식을 바꿈
+		// 지금 내가 무슨 정렬이라는 것을 넘기는 게 아니라, 해야될 일을 넘긴다.(오름차순 정렬(기본)이면 내림차순(DESC)값을 넘겨야 한다.)
+		// 이 값을 누가 알고 있어야 한다. 태그에 data속성으로 값을 저장해준다.(data-order="DESC").
+		// data속성값을 꺼내서 파라미터 값으로 추가시켜줘야 한다. data 속성 쓰는방법 => jquery 함수로 가능.data('order')
+		// pagination.do로 넘어가는 정보가 하나 더 생겼다......................... 파라미터 order를 받아준다.(서비스임플에서)
+		// 현재가 ASC값을 가지고 있다면 view쪽으로는 DESC를 전달해주겠다. 반대도 똑같다.
+		// 사원번호 클릭 -> DESC가 파라미터로 넘어간다. DESC를 받으면 이제 jsp쪽으로 ASC를 보내준다.
+		// 상황: 현재 정렬이 ASC이면 DESC를 전달해줘야한다. 그래야 정렬이 바뀌니까
+		// 다시 서비스에서 이미 ASC를 처리했다. 그러면 jsp쪽에는 DESC를 전달할 준비를 하고 있어야 한다. ServiceImpl에서 jsp로 전달할 데이터 작성(ASC(service)→jsp로 DESC 전달)
+		// 서비스가 알려준 정렬방식(model에 저장) : data-order속성에 EL값으로 order(ASC 또는 DESC)값을 불러올 수 있다.
+		// 지금은 파라미터가 2개가 전달되고 있는데 page, order -> 지금은 order값만 넘겨주고 있고 page는 전달x 그래서 1 => 서비스임플은 알고 있으니 page가 몇인지 받아오면 된다.
+		// 밑에 붙은 pagination 태그의 a링크에 order값 파라미터로 보내고 있지 않기 때문에 order가 풀리게 된다.(기본값 ASC로 되어버림)
+		// 그래서 서비스임플의 model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do"));에서 order값을 전달해줘야 한다.
+			// 뒷부분에서 경로 전달하고 있는데 여기서 파라미터도 전달할 수 있게 바꿔준다. ?order=..
+		$('.title').on('click', function(){
+			location.href = '${contextPath}/employees/pagination.do?order=' + $(this).data('order') + '&page=${page}';
+		})
 	})
 </script>
 <style>
@@ -72,7 +89,7 @@
 			<thead>
 				<tr>
 					<td>순번</td>
-					<td>사원번호</td>
+					<td><span class="title" data-order="${order}">사원번호</span></td>
 					<td>사원명</td>
 					<td>이메일</td>
 					<td>전화번호</td>
@@ -88,7 +105,7 @@
 			<tbody>
 				<c:forEach items="${employees}" var="emp" varStatus="vs">
 					<tr>
-						<td>${vs.index}</td>
+						<td>${beginNo - vs.index}</td>
 						<%-- empDTO에 있는 필드이름을 가져다 쓰는 거니까 잘 매칭해라 --%>
 						<td>${emp.employeeId}</td>
 						<td>${emp.firstName} ${emp.lastName}</td>
