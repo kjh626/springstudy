@@ -46,6 +46,10 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		Optional<String> opt3 = Optional.ofNullable(request.getParameter("order"));
 		String order = opt3.orElse("ASC");    // 이 받은 파라미터를 DB로 보내야한다. -> DB로 보낼 Map 에서 작업(map.put())
 		
+		// 파라미터 column이 전달되지 않는 경우 column=EMPLOYEE_ID로 처리한다.
+		Optional<String> opt4 = Optional.ofNullable(request.getParameter("column"));
+		String column = opt4.orElse("EMPLOYEE_ID");
+		
 		// PageUtil(Pagination에 필요한 모든 정보(9개 필드값)) 계산하기
 		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
 		
@@ -54,6 +58,7 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
 		map.put("order", order);
+		map.put("column", column);
 		
 		// begin ~ end 사이의 목록 가져오기
 		List<EmpDTO> employees = employeeListMapper.getEmployeeListUsingPagination(map); 
@@ -61,7 +66,7 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		// pagination.jsp로 전달할(forward)할 정보를 저장하기
 		model.addAttribute("employees", employees);
 		// jsp에서 쓸 ${pagination} 만들어서 보내줘야한다.
-		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do?order=" + order));
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do?&column=" + column + "&order=" + order));
 		/*
 			순번 붙이기 - 맨 처음이 107, 첫번째 사람의 번호만 구하면 된다. 그리고 인덱스를 빼면 됨
 			beginNo = totalRecord - (page - 1) * recordPerPage 
@@ -79,4 +84,36 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		model.addAttribute("page", page);
 	}
 
+	// 실무처럼 하면 리스트로 반환하지 않고, 맵에 리스트를 담는다. 그러면 추가할 리스트가 있으면 맵에 더 담아주면 된다.(확장 가능!)
+	@Override
+	public Map<String, Object> getEmployeeListUsingScroll(HttpServletRequest request) {
+		
+		// 파라미터 page가 전달되지 않는 경우 page=1 로 처리한다. 
+		Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt1.orElse("1"));
+		
+		// 전체 레코드 개수를 구한다.(DB에서 구해온다 => 불러주기만 하면 끝남)
+		int totalRecord = employeeListMapper.getEmployeeCount();
+		
+		// recordPerPage = 9로 처리한다.
+		int recordPerPage = 9;
+		
+		// PageUtil(Pagination에 필요한 모든 정보) 계산하기
+		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
+		
+		// DB로 보낼 Map 만들기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
+		
+		// begin ~ end 사이의 목록 가져오기
+		List<EmpDTO> employees = employeeListMapper.getEmployeeListUsingScroll(map); 
+		
+		// scroll.jsp 로 응답할 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("employees", employees);
+		
+		// 응답
+		return resultMap;
+	}
 }

@@ -13,6 +13,6 @@ public interface EmployeeListMapper {
 	public int getEmployeeCount();
 	// 데이터 begin, end 전달하는 방법 우리의 선택은 Map  (+ PageUtil)
 	public List<EmpDTO> getEmployeeListUsingPagination(Map<String, Object> map);
-	
+	public List<EmpDTO> getEmployeeListUsingScroll(Map<String, Object> map);
 	
 }

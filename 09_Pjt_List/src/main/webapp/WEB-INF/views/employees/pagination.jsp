@@ -21,6 +21,7 @@
 		// 세션에 저장된 recordPerPage값으로 <select> 태그의 값을 세팅
 		let recordPerPage = '${sessionScope.recordPerPage}' == '' ? '10' : '${sessionScope.recordPerPage}';
 		$('#recordPerPage').val(recordPerPage);
+		
 		// 제목을 클릭하면 정렬 방식을 바꿈
 		// 지금 내가 무슨 정렬이라는 것을 넘기는 게 아니라, 해야될 일을 넘긴다.(오름차순 정렬(기본)이면 내림차순(DESC)값을 넘겨야 한다.)
 		// 이 값을 누가 알고 있어야 한다. 태그에 data속성으로 값을 저장해준다.(data-order="DESC").
@@ -36,11 +37,20 @@
 		// 그래서 서비스임플의 model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/employees/pagination.do"));에서 order값을 전달해줘야 한다.
 			// 뒷부분에서 경로 전달하고 있는데 여기서 파라미터도 전달할 수 있게 바꿔준다. ?order=..
 		$('.title').on('click', function(){
-			location.href = '${contextPath}/employees/pagination.do?order=' + $(this).data('order') + '&page=${page}';
+			location.href = '${contextPath}/employees/pagination.do?column=' + $(this).data('column') + '&order=' + $(this).data('order') + '&page=${page}';
 		})
 	})
 </script>
 <style>
+	.title {
+		cursor: pointer;
+	}
+	.title:hover {
+		color: gray;
+	}
+	.title:active {
+		color: lightgray;
+	}
 	.pagination {
 		width: 350px;
 		margin: 0 auto;
@@ -56,8 +66,14 @@
 		font-weight: 900;
 	}
 	.link {
-		
+		color: coral;
 	}
+	table {
+		width: 1500px;
+	}
+	table td:nth-of-type(1) { width: 80px; }
+	table td:nth-of-type(2) { width: 80px; }
+	table td:nth-of-type(3) { width: 200px; }
 </style>
 </head>
 <body>
@@ -89,17 +105,17 @@
 			<thead>
 				<tr>
 					<td>순번</td>
-					<td><span class="title" data-order="${order}">사원번호</span></td>
-					<td>사원명</td>
-					<td>이메일</td>
-					<td>전화번호</td>
-					<td>입사일자</td>
-					<td>직업</td>
-					<td>연봉</td>
-					<td>커미션</td>
-					<td>매니저</td>
-					<td>부서번호</td>
-					<td>부서명</td>
+					<td><span class="title" data-column="E.EMPLOYEE_ID" data-order="${order}">사원번호</span></td>
+					<td><span class="title" data-column="E.FIRST_NAME" data-order="${order}">사원명</span></td>
+					<td><span class="title" data-column="E.EMAIL" data-order="${order}">이메일</span></td>
+					<td><span class="title" data-column="E.PHONE_NUMBER" data-order="${order}">전화번호</span></td>
+					<td><span class="title" data-column="E.HIRE_DATE" data-order="${order}">입사일자</span></td>
+					<td><span class="title" data-column="E.JOB_ID" data-order="${order}">직업</span></td>
+					<td><span class="title" data-column="E.SALARY" data-order="${order}">연봉</span></td>
+					<td><span class="title" data-column="E.COMMISSION_PCT" data-order="${order}">커미션</span></td>
+					<td><span class="title" data-column="E.MANAGER_ID" data-order="${order}">매니저</span></td>
+					<td><span class="title" data-column="E.DEPARTMENT_ID" data-order="${order}">부서번호</span></td>
+					<td><span class="title" data-column="D.DEPARTMENT_NAME" data-order="${order}">부서명</span></td>
 				</tr>
 			</thead>
 			<tbody>
