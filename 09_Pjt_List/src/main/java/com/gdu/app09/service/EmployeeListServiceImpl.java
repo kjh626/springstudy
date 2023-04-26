@@ -112,8 +112,42 @@ public class EmployeeListServiceImpl implements EmployeeListService {
 		// scroll.jsp 로 응답할 데이터
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("employees", employees);
+		resultMap.put("totalPage", pageUtil.getTotalPage());
 		
 		// 응답
 		return resultMap;
+		
+		/* 
+			resultMap이 json으로 변환될 때의 모습
+			                         -> 이게 resData의 모습이 된다.
+			{ 
+				"employees": [
+					{
+						"employeeId": 100,
+						"firstName": "Steven",
+						"lastName": "King",
+						...,
+						"deptDTO": {
+							"departmentId": 90,
+							"departmentName": "Executive"
+							...
+						}
+					},
+					{
+						"employeeId": 101,
+						"firstName": "Neena",
+						"lastName": "Kochhar",
+						...,
+						"deptDTO": {
+							"departmentId": 90,
+							"departmentName": "Executive"
+							...
+						}
+					},
+					...
+				],
+				"totalPage": 12
+			}
+		*/
 	}
 }
