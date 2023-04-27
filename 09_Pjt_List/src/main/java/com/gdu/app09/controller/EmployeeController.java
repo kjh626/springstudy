@@ -42,9 +42,23 @@ public class EmployeeController {
 	}
 	
 	@ResponseBody
-	@GetMapping(value="/employee/scroll.do", produces="application/json")
+	@GetMapping(value="/employees/scroll.do", produces="application/json")
 	public Map<String, Object> scroll(HttpServletRequest request){
 		return employeeListService.getEmployeeListUsingScroll(request); 
+	}
+	
+	// 서치 화면에서도 회원 목록을 뿌려줄 필요가 있어서 pagination에서 목록 불러온 것 거의 다 복사해서 작업해줘야한다.
+	// 추가 파라미터를 통해 검색을 구현해야 함
+	@GetMapping("/employees/search.do")
+	public String search(HttpServletRequest request, Model model) {
+		employeeListService.getEmployeeListUsingSearch(request, model);
+		return "employees/search";
+	}
+	
+	@ResponseBody
+	@GetMapping(value="/employees/AutoComplete.do", produces="application/json")
+	public Map<String, Object> AutoComplete(HttpServletRequest request){
+		return employeeListService.getAutoComplete(request); 
 	}
 	
 }
