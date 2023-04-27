@@ -78,12 +78,6 @@
 </style>
 </head>
 <body>
-
-
-	<%-- 화면이동이니까 search.form으로 해줬다 --%>
-	<div>
-		<a href="${contextPath}/employees/search.do">사원 조회 화면으로 이동</a>
-	</div>
 	
 	<%-- 셀렉트 써서 한번에 몇개를 보여줄 것인지 --%>
 	<div>

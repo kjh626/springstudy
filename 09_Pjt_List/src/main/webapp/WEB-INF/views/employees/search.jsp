@@ -74,22 +74,22 @@
 </style>
 </head>
 <body>
-
+		
 	<div>
+		<h1>사원 검색</h1>
+		<form id="frm1" action="${contextPath}/employees/search.do">
+			<select name="column" id="column">
+				<option value="E.FIRST_NAME">FIRST_NAME</option>
+				<option value="E.PHONE_NUMBER">PHONE_NUMBER</option>
+				<option value="D.DEPARTMENT_NAME">DEPARTMENT_NAME</option>
+			</select>
+			<input list="auto_complete" type="text" name="query" id="query" >
+			<datalist id="auto_complete"></datalist>
+			<button>조회</button>
+		</form>
+	</div>
 		
-		<div>
-			<form id="frm1" action="${contextPath}/employees/search.do">
-				<select name="column" id="column">
-					<option value="E.FIRST_NAME">FIRST_NAME</option>
-					<option value="E.PHONE_NUMBER">PHONE_NUMBER</option>
-					<option value="D.DEPARTMENT_NAME">DEPARTMENT_NAME</option>
-				</select>
-				<input list="auto_complete" type="text" name="query" id="query" >
-				<datalist id="auto_complete"></datalist>
-				<button>조회</button>
-			</form>
-		</div>
-		
+	<div>
 		<table border="1">
 			<thead>
 				<tr>
@@ -134,10 +134,6 @@
 			</tfoot>
 		</table>
 	</div>
-	
-	
-	
-	
 	
 </body>
 </html>
