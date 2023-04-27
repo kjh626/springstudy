@@ -12,6 +12,12 @@
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script>
 	$(function(){
+		// 자동 완성 목록 초기화
+		$('#column').on('change', function(){
+			$('#auto_complete').empty();
+			$('#query').val('');
+		})
+		// 자동 완성 목록 가져오기
 		$('#query').on('keyup', function(){
 			$('#auto_complete').empty();
 			$.ajax({
@@ -21,8 +27,18 @@
 				data: $('#frm1').serialize(),
 				//응답
 				dataType: 'json',
-				success:function(resData){
-					
+				// 보낼 때는 E.FIRST_NAME: 받아올 떄는 firstName으로 온다.
+				success:function(resData){    // resData = {"employees": [{"firstName": "xxx", "deptDTO":{"departmentName": "xxx"}}, {}, {}, ...]}
+					$.each(resData.employees, function(i, employee){
+						switch($('#column').val()){
+						case "E.FIRST_NAME":
+							$('#auto_complete').append('<option value="' + employee.firstName + '" />'); break;
+						case "E.PHONE_NUMBER":
+							$('#auto_complete').append('<option value="' + employee.phoneNumber + '" />'); break;
+						case "D.DEPARTMENT_NAME":
+							$('#auto_complete').append('<option value="' + employee.deptDTO.departmentName + '" />'); break;
+						}
+					})
 				}
 				
 			})
@@ -34,10 +50,11 @@
 	.pagination {
 		width: 350px;
 		margin: 0 auto;
+		text-align: center;
 	}
 	.pagination span, .pagination a {
 		display: inline-block;
-		width: 50px;
+		margin: 0 15px;
 	}
 	.hidden {
 		visibility: hidden;
@@ -46,7 +63,7 @@
 		font-weight: 900;
 	}
 	.link {
-		color: coral;
+		color: orange;
 	}
 	table {
 		width: 1500px;
@@ -62,7 +79,7 @@
 		
 		<div>
 			<form id="frm1" action="${contextPath}/employees/search.do">
-				<select name="column">
+				<select name="column" id="column">
 					<option value="E.FIRST_NAME">FIRST_NAME</option>
 					<option value="E.PHONE_NUMBER">PHONE_NUMBER</option>
 					<option value="D.DEPARTMENT_NAME">DEPARTMENT_NAME</option>

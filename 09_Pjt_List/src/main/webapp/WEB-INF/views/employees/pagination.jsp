@@ -49,15 +49,16 @@
 		color: gray;
 	}
 	.title:active {
-		color: lightgray;
+		color: silver;
 	}
 	.pagination {
 		width: 350px;
 		margin: 0 auto;
+		text-align: center;
 	}
 	.pagination span, .pagination a {
 		display: inline-block;
-		width: 50px;
+		margin: 0 15px;
 	}
 	.hidden {
 		visibility: hidden;
@@ -66,7 +67,7 @@
 		font-weight: 900;
 	}
 	.link {
-		color: coral;
+		color: orange;
 	}
 	table {
 		width: 1500px;
