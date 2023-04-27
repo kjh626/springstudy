@@ -26,7 +26,7 @@ public class BbsServiceImpl implements BbsService {
 	
 	@Override
 	public void loadBbsList(HttpServletRequest request, Model model) {
-		
+
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt.orElse("1"));
 		
@@ -45,11 +45,12 @@ public class BbsServiceImpl implements BbsService {
 		model.addAttribute("bbsList", bbsList);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
 		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/bbs/list.do"));
+		
 	}
 	
 	@Override
 	public int addBbs(HttpServletRequest request) {
-
+		
 		// 파라미터 writer, title
 		String writer = request.getParameter("writer");
 		String title = request.getParameter("title");
@@ -68,6 +69,15 @@ public class BbsServiceImpl implements BbsService {
 		
 		// 결과 반환
 		return addResult;
+		
+	}
+	
+	@Override
+	public int removeBbs(int bbsNo) {
+		int removeResult = bbsMapper.removeBbs(bbsNo);
+		return removeResult;
 	}
 
+	
+	
 }

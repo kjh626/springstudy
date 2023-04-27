@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script>
-	function fnList(){
+	function fnList() {
 		location.href = '${contextPath}/bbs/list.do';
 	}
 </script>
@@ -19,7 +19,7 @@
 <body>
 
 	<div>
-		<h1>Bbs 작성</h1>
+		<h1>BBS 작성</h1>
 		<form method="post" action="${contextPath}/bbs/add.do">
 			<div>
 				<label for="writer">작성자</label>
