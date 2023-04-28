@@ -9,4 +9,5 @@ public interface BbsService {
 	// 파라미터는 request가 처리한다.
 	public int addBbs(HttpServletRequest request);
 	public int removeBbs(int bbsNo);
+	public int addReply(HttpServletRequest request);
 }

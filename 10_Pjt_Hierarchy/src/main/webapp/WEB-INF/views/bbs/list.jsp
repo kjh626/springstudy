@@ -23,6 +23,15 @@
 			}
 		}
 		
+		// 답글 달기 결과 메시지
+		if('${addReplyResult}' != ''){
+			if('${addReplyResult}' == '1') {
+				alert('답글이 달렸습니다.');
+			} else {
+				alert('답글 달기가 실패했습니다.');
+			}
+		}
+		
 		// 게시글 삭제 결과 메시지
 		if('${removeResult}' != ''){
 			if('${removeResult}' == '1') {
@@ -40,9 +49,25 @@
 			}
 		})
 		
+		// 답글 작성 화면 표시/숨기기
+		// 구조 볼 때 F12눌러서 구조 파악해라. 부모, 형제를 찾기할 때 this 기반으로 우리가 원하는 타깃이 어디있는지 코드로 보지말고 F12로 찾아라
+		// removeClass로 지워도 되고, toggleClass로 해도 되고
+		// closest 가장 가까운 조상 (지금은 부모의 부모)
+		$('.btn_reply').on('click', function(){
+			$('.write').addClass("blind");
+			let write = $(this).closest('.list').next();  // write는 jQuery객체이다. (jQuery wrapper가 필요 없다.) 뒤에 쓴 것들 다 jQuery메소드니까.
+			write.removeClass('blind');
+			// 전부 blind하고 클릭한 write만 blind처리 한다. 닫아주는 것은 안 되고 하나씩만 열린다.
+		})
+		
 	})
 
 </script>
+<style>
+	.blind {
+		display: none;
+	}
+</style>
 </head>
 <body>
 
@@ -68,16 +93,49 @@
 			<tbody>
 				<c:forEach items="${bbsList}" var="bbs" varStatus="vs">
 					<c:if test="${bbs.state == 1}">
-						<tr>
+						<!-- 게시글 내용 -->
+						<tr class="list">
 							<td>${beginNo - vs.index}</td>
 							<td>${bbs.writer}</td>
-							<td>${bbs.title}</td>
+							<td>
+								<!-- DEPTH에 의한 들여쓰기 (1에서 1까지 한 번 반복한다.) -->
+								<c:forEach begin="1" end="${bbs.depth}" step="1">&nbsp;&nbsp;&nbsp;</c:forEach>
+								<!-- 답글은 [Re] 표시하기 -->
+								<c:if test="${bbs.depth > 0}">[Re]</c:if>
+								<!-- 제목 -->
+								${bbs.title}
+								<!-- 답글작성하기 버튼 -->
+								<input type="button" value="답글" class="btn_reply">
+							</td>
 							<td>${bbs.ip}</td>
 							<td>${bbs.createdAt}</td>
 							<td>
 								<form class="frm_remove" method="post" action="${contextPath}/bbs/remove.do">
 									<input type="hidden" name="bbsNo" value="${bbs.bbsNo}">
 									<button>삭제</button>
+								</form>
+							</td>
+						</tr>
+						<!-- 답글 작성 화면 -->
+						<!-- 답글 달 때 필요한 데이터:원글의 DEPTH, GROUP_NO, GROUP_ORDER -->
+						<tr class="write blind">
+							<td colspan="6">
+								<form method="post" action="${contextPath}/bbs/reply/add.do">
+									<div>
+										<label for="writer">작성자</label>
+										<input id="writer" name="writer" required="required">
+									</div>
+									<div>
+										<label for="title">제목</label>
+										<input id="title" name="title" required="required">
+									</div>
+									<div>
+										<button>답글달기</button>
+										<!-- 원글의 depth, groupNo, groupOrder를 함께 보낸다. -->
+										<input type="hidden" name="depth" value="${bbs.depth}">
+										<input type="hidden" name="groupNo" value="${bbs.groupNo}">
+										<input type="hidden" name="groupOrder" value="${bbs.groupOrder}">
+									</div>
 								</form>
 							</td>
 						</tr>
