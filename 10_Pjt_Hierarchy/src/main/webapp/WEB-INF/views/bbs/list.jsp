@@ -54,13 +54,26 @@
 		// removeClass로 지워도 되고, toggleClass로 해도 되고
 		// closest 가장 가까운 조상 (지금은 부모의 부모)
 		$('.btn_reply').on('click', function(){
-			$('.write').addClass("blind");
+
+			
+			// 작성화면
 			let write = $(this).closest('.list').next();  // write는 jQuery객체이다. (jQuery wrapper가 필요 없다.) 뒤에 쓴 것들 다 jQuery메소드니까.
-			write.removeClass('blind');
+			
+			// 작성화면이 blind를 가지고 있다 = 다른 작성화면이 열려 있다
+			if(write.hasClass('blind')){
+				
+				$('.write').addClass('blind');  // 모든 작성화면을 닫자
+				write.removeClass('blind');     // 현재 작성화면을 열자
+				
+			// 작성화면이 blind를 가지고 있지 않다 = 현재 작성화면이 열려 있다
+			} else {
+				write.addClass('blind');        // 현재 작성화면을 닫자
+			}
 			// 전부 blind하고 클릭한 write만 blind처리 한다. 닫아주는 것은 안 되고 하나씩만 열린다.
 		})
 		
 	})
+	
 
 </script>
 <style>
