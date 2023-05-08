@@ -19,7 +19,7 @@ public class MyFileUtil {
 		LocalDate now = LocalDate.now();
 		// 루트 폴더 하나 만들어줌(/storage)
 		// 실제로 만들어지는 경로: 루트/storage/2023/05/08   <- 서버를 쓰면 루트(리눅스 쓸듯)
-		return "/storage" + now.getYear() + sep + String.format("%02d", now.getMonthValue()) + sep + String.format("%02d", now.getDayOfMonth());
+		return "/storage" + sep + now.getYear() + sep + String.format("%02d", now.getMonthValue()) + sep + String.format("%02d", now.getDayOfMonth());
 	}
 	
 	// String filesystemName 만들기
