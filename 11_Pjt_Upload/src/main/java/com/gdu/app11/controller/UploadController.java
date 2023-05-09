@@ -1,5 +1,7 @@
 package com.gdu.app11.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,8 @@ public class UploadController {
 	private UploadService uploadService;
 
 	@GetMapping("/list.do")
-	public String list(Model model) {
-		uploadService.getUploadList(model);
+	public String list(HttpServletRequest request, Model model) {
+		uploadService.getUploadList(request, model);
 		return "upload/list";
 	}
 	

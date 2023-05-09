@@ -6,12 +6,17 @@
 <!-- namespace는 @Mapper를 지정한다. -->
 <mapper namespace="com.gdu.app11.mapper.UploadMapper">
 
+	<select id="getUploadCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM UPLOAD
+	</select>
+
 	<!-- 목록을 가져갈 때, 첨부파일개수가 몇개인지도 표시하고 싶다. 첨부파일개수가 몇 개다? 정보를 넘겨주고 싶다(ATTACH_COUNT라고 이름붙여봄). 그런데 이걸 DB(테이블에)에 넣을 필요는 없어 보인다.
 		계산으로 가지고 오는 정보라고 볼 수 있음. -> 서브쿼리를 활용해서 계산.
 		UploadDTO가 칼럼 6개를 다 못 싣는다. ATTACH_COUNT는 여기서 추가된 것이라 DTO에 저장 못 한다. 이걸 저장할 수 있게끔 UploadDTO를 작업해줘야 한다. => 이로써 알게된 점: DTO가 꼭 테이블의 칼럼과 똑같을 필요는 없다
 		*실구현할 때는 목록보기 쿼리문에 페이지네이션을 처리해줘야 한다.* -->
-	<select id="getUploadList" resultType="UploadDTO">
-		SELECT U.UPLOAD_NO
+	<select id="getUploadList" parameterType="Map" resultType="UploadDTO">
+		SELECT U.RN
 			 , U.UPLOAD_TITLE
 			 , U.UPLOAD_CONTENT
 			 , U.CREATED_AT
@@ -19,7 +24,9 @@
 			 , (SELECT COUNT(*)
 			 	  FROM ATTACH A
 			 	 WHERE U.UPLOAD_NO = A.UPLOAD_NO) AS ATTACH_COUNT
-		  FROM UPLOAD U
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY UPLOAD_NO DESC) AS RN, UPLOAD_NO, UPLOAD_TITLE, UPLOAD_CONTENT, CREATED_AT, MODIFIED_AT
+		  		  FROM UPLOAD) U 
+		 WHERE U.RN BETWEEN #{begin} AND #{end}
 	</select>
 	
 	<insert id="addUpload" parameterType="UploadDTO">

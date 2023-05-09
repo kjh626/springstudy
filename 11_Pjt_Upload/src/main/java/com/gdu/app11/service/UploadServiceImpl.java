@@ -1,9 +1,13 @@
 package com.gdu.app11.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,7 @@ import com.gdu.app11.domain.AttachDTO;
 import com.gdu.app11.domain.UploadDTO;
 import com.gdu.app11.mapper.UploadMapper;
 import com.gdu.app11.util.MyFileUtil;
+import com.gdu.app11.util.PageUtil;
 
 import lombok.AllArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
@@ -29,12 +34,28 @@ public class UploadServiceImpl implements UploadService {
 	// field
 	private UploadMapper uploadMapper;
 	private MyFileUtil myFileUtil;
+	private PageUtil pageUtil;
 	
 	// ★권장사항 : Pagination 처리 해 보기★
 	@Override
-	public void getUploadList(Model model) {
-		List<UploadDTO> uploadList = uploadMapper.getUploadList();
+	public void getUploadList(HttpServletRequest request, Model model) {
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));
+		
+		int totalRecord = uploadMapper.getUploadCount();
+		
+		int recordPerPage = 5;
+		
+		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
+		
+		List<UploadDTO> uploadList = uploadMapper.getUploadList(map);
 		model.addAttribute("uploadList", uploadList);  // 모델에 저장해서 포워드 시키기 위함
+		model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/upload/list.do"));
 		
 	}
 	

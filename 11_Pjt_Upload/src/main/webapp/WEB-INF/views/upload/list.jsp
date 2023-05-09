@@ -20,6 +20,7 @@
 	<hr>
 	
 	<div>
+		<div>${pagination}</div>
 		<table border="1">
 			<thead>
 				<tr>
@@ -30,9 +31,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${uploadList}" var="upload">
+				<c:forEach items="${uploadList}" var="upload" varStatus="vs">
 					<tr>
-						<td>${upload.uploadNo}</td>
+						<td>${beginNo - vs.index}</td>
 						<td><a href="${contextPath}/upload/detail.do?uploadNo=${upload.uploadNo}">${upload.uploadTitle}</a></td>
 						<td>${upload.createdAt}</td>
 						<td>${upload.attachCount}</td>
