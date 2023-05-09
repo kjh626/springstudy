@@ -1,11 +1,16 @@
 package com.gdu.app11.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -18,12 +23,20 @@ import lombok.AllArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 
 @Service
-@AllArgsConstructor  // filed의 @Autowired 처리
+@AllArgsConstructor  // field의 @Autowired 처리
 public class UploadServiceImpl implements UploadService {
 
 	// field
 	private UploadMapper uploadMapper;
 	private MyFileUtil myFileUtil;
+	
+	// ★권장사항 : Pagination 처리 해 보기★
+	@Override
+	public void getUploadList(Model model) {
+		List<UploadDTO> uploadList = uploadMapper.getUploadList();
+		model.addAttribute("uploadList", uploadList);  // 모델에 저장해서 포워드 시키기 위함
+		
+	}
 	
 	@Transactional(readOnly = true)    	// INSERT문을 2개 이상 수행하기 때문에 트랜잭션 처리가 필요하다.
 	@Override
@@ -56,7 +69,6 @@ public class UploadServiceImpl implements UploadService {
 			
 			// 첨부된 파일 목록 순회
 			for(MultipartFile multipartFile : files) {
-				
 				
 				// 예외 처리
 				try {
@@ -129,6 +141,29 @@ public class UploadServiceImpl implements UploadService {
 		
 		
 		return uploadResult;
+	}
+	
+	@Override
+	public void getUploadByNo(int uploadNo, Model model) {
+		model.addAttribute("upload", uploadMapper.getUploadByNo(uploadNo));
+		model.addAttribute("attachList", uploadMapper.getAttachList(uploadNo));
+	}
+	
+	@Override
+	public ResponseEntity<byte[]> display(int attachNo) {
+
+		AttachDTO attachDTO = uploadMapper.getAttachByNo(attachNo);
+		
+		ResponseEntity<byte[]> image = null;
+		
+		try {
+			// 썸네일이미지를 바이트배열로 바꾼 걸 넣어준다.
+			File thumbnail = new File(attachDTO.getPath(), "s_" + attachDTO.getFilesystemName());
+			image = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(thumbnail), HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return image;
 	}
 
 }
