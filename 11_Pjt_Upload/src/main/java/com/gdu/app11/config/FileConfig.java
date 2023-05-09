@@ -10,7 +10,7 @@ public class FileConfig {
 	
 	// 우리가 바꿀 것은 파일 사이즈밖에 없다. 무턱대고 크게 잡지 말고 서버의 크기에 맞춰서 사이즈 잡아라.
 	@Bean
-	public MultipartResolver multipartResolver() {    // Bean 타입은 MultipartResolver로 설정해야 한다.
+	public MultipartResolver multipartResolver() {    // Bean 타입은 MultipartResolver로 설정해야 한다. (인터페이스 타입을 Bean으로 저장해야 좋다)
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setDefaultEncoding("UTF-8");
 		multipartResolver.setMaxUploadSize(1024 * 1024 * 100);        // 전체 첨부 파일의 크기 100MB <- 우리는 다중첨부니까

@@ -28,7 +28,7 @@ public class UploadController {
 	}
 	
 	@PostMapping("/add.do")
-	public void add(MultipartHttpServletRequest multipartRequest) {
+	public void add(MultipartHttpServletRequest multipartRequest) { // MultipartHttpServletRequest: 파일업로드할 때 쓰임(jsp에서 <input type="file">인 놈을 처리할 수 있는 request)
 		uploadService.addUpload(multipartRequest);
 	}
 	
