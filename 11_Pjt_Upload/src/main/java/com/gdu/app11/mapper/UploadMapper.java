@@ -20,7 +20,7 @@ public interface UploadMapper {
 	public int addUpload(UploadDTO uploadDTO);
 	public int addAttach(AttachDTO attachDTO);
 	
-	// getUploadByNo, downloadAll
+	// getUploadByNo 
 	public UploadDTO getUploadByNo(int uploadNo);
 	public List<AttachDTO> getAttachList(int uploadNo);
 	
@@ -29,4 +29,16 @@ public interface UploadMapper {
 	
 	// download
 	public int increaseDownloadCount(int attachNo);
+	
+	// downloadAll
+	// public List<AttachDTO> getAttachList(int uploadNo);
+	
+	// removeUpload
+	public int removeUpload(int uploadNo);
+	
+	// modifyUpload
+	public int modifyUpload(UploadDTO uploadDTO);
+	
+	// removeAttach
+	public int removeAttach(int attachNo);
 }
