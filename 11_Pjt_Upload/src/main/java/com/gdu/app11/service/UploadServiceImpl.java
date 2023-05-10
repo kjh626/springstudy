@@ -1,20 +1,31 @@
 package com.gdu.app11.service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -186,5 +197,145 @@ public class UploadServiceImpl implements UploadService {
 		}
 		return image;
 	}
+	
+	@Override
+	public ResponseEntity<Resource> download(int attachNo, String userAgent) {
+		
+		// 다운로드할 첨부 파일의 정보(경로, 원래 이름, 저장된 이름) 가져오기
+		AttachDTO attachDTO = uploadMapper.getAttachByNo(attachNo);
+		
+		// 다운로드할 첨부 파일의 File 객체 -> Resource 객체
+		File file = new File(attachDTO.getPath(), attachDTO.getFilesystemName());
+		Resource resource = new FileSystemResource(file);
+		
+		// 다운로드할 첨부 파일의 존재 여부 확인(다운로드 실패를 반환)
+		if(resource.exists() == false) {
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+		}
+		
+		// 다운로드 횟수 증가하기
+		uploadMapper.increaseDownloadCount(attachNo);
+		
+		// 다운로드 되는 파일명(첨부 파일의 원래 이름, UserAgent(브라우저)에 따른 인코딩 세팅)
+		String originName = attachDTO.getOriginName();
+		try {
+			
+			// IE (UserAgent에 Trident가 포함되어 있다.)
+			if(userAgent.contains("Trident")) {
+				originName = URLEncoder.encode(originName, "UTF-8").replace("+", " ");    // 공백을 "+"로 인코딩 해줘서 추가적으로 replace 작업 필요
+			}
+			// Edge (UserAgent에 Edg가 포함되어 있다.)
+			else if(userAgent.contains("Edg")) {
+				originName = URLEncoder.encode(originName, "UTF-8");
+			}
+			// Others
+			else {
+				// 확장 아스키로 처리(복사해서 갖다 써라). 확장 아스키에는 로마자같은 것도 포함됨
+				originName = new String(originName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 다운로드 응답 헤더 만들기 (Jsp/Servlet 코드)
+		/*
+		MultiValueMap<String, String> responseHeader = new HttpHeaders();
+		responseHeader.add("Content-Disposition", "attachment; filename=" + originName);    // 다운로드에 꼭 필요한 Content-Disposition, attachment -> 이렇게 하면 사용자가 이름을 정해줘야한다. 우리는 filename을 originName 전해줄 거임
+		responseHeader.add("Content-Length", file.length() + "");
+		*/
+
+		// 다운로드 응답 헤더 만들기 (Spring 코드)
+		HttpHeaders responseHeader = new HttpHeaders();
+		responseHeader.setContentDisposition(ContentDisposition
+											  .attachment()
+											  .filename(originName)
+											  .build());
+		responseHeader.setContentLength(file.length());
+		
+		// 응답
+		return new ResponseEntity<Resource>(resource, responseHeader, HttpStatus.OK);
+	}
+	
+	@Override
+	public ResponseEntity<Resource> downloadAll(int uploadNo) {
+
+		// 모든 첨부 파일을 zip 파일로 압축해서 다운로드 하는 서비스
+		
+		// 첨부 파일이 저장된 곳에서 파일들을 묶어서 zip파일로 만들어주는 것이 첫 번째! 그리고 이 zip파일을 어디에 저장할 것인지
+		// 두 번째 이 zip 파일을 보관하고 있을 필요가 없다. 다운로드가 끝났으면 zip 파일은 효용가치가 없어진다.(임시파일이다)
+		// 임시 파일을 어디에 저장할 것이고, 어떻게 때마다 지워줄 것인가
+		
+		// zip 파일이 저장될 경로
+		String tempPath = myFileUtil.getTempPath();
+		File dir = new File(tempPath);
+		if(dir.exists() == false) {
+			dir.mkdirs();
+		}
+		
+		// zip 파일의 이름
+		String tempfileName = myFileUtil.getTempFileName();
+		
+		// zip 파일의 File 객체
+		File zFile = new File(tempPath, tempfileName);
+		
+		// zip 파일을 생성하기 위한 Java IO Stream 선언
+		BufferedInputStream bin = null;   // 각 첨부 파일을 읽어 들이는 스트림
+		ZipOutputStream zout = null;      // zip 파일을 만드는 스트림
+		
+		// 다운로드할 첨부 파일들의 정보(경로, 원래 이름, 저장된 이름) 가져오기
+		List<AttachDTO> attachList = uploadMapper.getAttachList(uploadNo);
+		
+		try {
+			
+			// ZipOutputStream 객체 생성
+			zout = new ZipOutputStream(new FileOutputStream(zFile));
+			
+			// 첨부 파일들을 하나씩 순회하면서 읽어들인 뒤 zip 파일에 추가하기 + 각 첨부 파일들의 다운로드 횟수 증가
+			for(AttachDTO attachDTO : attachList) {
+				
+				// zip 파일에 추가할 첨부 파일 이름 등록(첨부 파일의 원래 이름)
+				ZipEntry zipEntry = new ZipEntry(attachDTO.getOriginName());
+				zout.putNextEntry(zipEntry);
+				
+				// zip 파일에 첨부 파일 추가
+				bin = new BufferedInputStream(new FileInputStream(new File(attachDTO.getPath(), attachDTO.getFilesystemName())));
+				
+				// bin -> zout으로 파일 복사하기 (Java 코드) <=> Spring의 Filecopy는 close의 문제로 사용 못 한다.
+				byte[] b = new byte[1024];   // 첨부 파일을 1KB 단위로 읽겠다.
+				int readByte = 0;            // 실제로 읽어들인 바이트 수
+				while((readByte = bin.read(b)) != -1) {
+					zout.write(b, 0, readByte);   // 바이트배열, 인덱스0부터, readByte(읽어들인 바이트 수 만큼)만큼만 보내시오
+												  // 읽어들인 내용은 바이트배열b에 저장. 0부터 readByte만큼 읽는다
+				}
+				bin.close();
+				zout.closeEntry();
+				
+				// 각 첨부 파일들의 다운로드 횟수 증가
+				uploadMapper.increaseDownloadCount(attachDTO.getAttachNo());
+				
+			}
+			
+			zout.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 다운로드할 zip 파일의 File 객체 -> Resource 객체
+		Resource resource = new FileSystemResource(zFile);
+		
+		// 다운로드 응답 헤더 만들기 (Spring 코드)
+		HttpHeaders responseHeader = new HttpHeaders();
+		responseHeader.setContentDisposition(ContentDisposition
+											  .attachment()
+											  .filename(tempfileName)
+											  .build());
+		responseHeader.setContentLength(zFile.length());
+		
+		// 응답
+		return new ResponseEntity<Resource>(resource, responseHeader, HttpStatus.OK);
+	}
+	
 
 }

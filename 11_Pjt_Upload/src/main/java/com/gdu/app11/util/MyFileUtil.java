@@ -15,15 +15,13 @@ public class MyFileUtil {
 	
 	// String path 만들기 (기준은 날짜)
 	public String getPath() {
-		
 		LocalDate now = LocalDate.now();
 		// 루트 폴더 하나 만들어줌(/storage)
 		// 실제로 만들어지는 경로: 루트/storage/2023/05/08   <- 서버를 쓰면 루트(리눅스 쓸듯)
 		return "/storage" + sep + now.getYear() + sep + String.format("%02d", now.getMonthValue()) + sep + String.format("%02d", now.getDayOfMonth());
 	}
 	
-	// String filesystemName 만들기
-	// 원래이름을 받아오는 이유는? 확장자를 받아오기 위해서
+	// String filesystemName 만들기 (원래이름을 받아오는 이유는? 확장자를 받아오기 위해서)
 	public String getFilesystemName(String originName) {
 		
 		// 원래 첨부 파일의 확장자 꺼내기
@@ -46,6 +44,16 @@ public class MyFileUtil {
 		// 하이픈이 db에 그냥 저장되면 공간낭비니까 하이픈 빼주기 (자바 6장 random에 있음)
 		return UUID.randomUUID().toString().replace("-", "") + "." + extName;
 		
+	}
+	
+	// String tempPath 만들기
+	public String getTempPath() {
+		return "/storage" + sep + "temp";
+	}
+	
+	// String tempfileName 만들기 (zip 파일)
+	public String getTempFileName() {
+		return UUID.randomUUID().toString().replace("-", "") + ".zip";
 	}
 	
 }
