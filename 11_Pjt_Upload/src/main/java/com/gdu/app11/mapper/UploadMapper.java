@@ -41,4 +41,8 @@ public interface UploadMapper {
 	
 	// removeAttach
 	public int removeAttach(int attachNo);
+	
+	// RemoveWrongfileScheduler
+	public List<AttachDTO> getAttachListInYesterday();
+
 }
