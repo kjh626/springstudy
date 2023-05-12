@@ -66,7 +66,9 @@ public class StaffServiceImpl implements StaffService {
 		try {
 			String sno = query;
 			sno = sno.isEmpty() ? "0" : sno;
-			return new ResponseEntity<StaffDTO>(staffMapper.getStaffByQuery(sno), HttpStatus.OK);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(MediaType.APPLICATION_JSON);
+			return new ResponseEntity<StaffDTO>(staffMapper.getStaffByQuery(sno), header, HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<StaffDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
