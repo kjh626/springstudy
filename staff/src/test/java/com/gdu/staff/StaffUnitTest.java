@@ -23,20 +23,20 @@ import com.gdu.staff.mapper.StaffMapper;
 public class StaffUnitTest {
 
 	@Autowired
-	private StaffMapper boardMapper;
+	private StaffMapper staffMapper;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(StaffUnitTest.class);
 	
 	@Before
 	public void 등록테스트() {
 		StaffDTO staff = new StaffDTO("99999", "김기획", "기획부", 0);
-		assertEquals(1, boardMapper.addStaff(staff)); 
+		assertEquals(1, staffMapper.addStaff(staff)); 
 	}
 	
 	@Test
 	public void 사원조회테스트() {
 		String sno = "11111";  
-		StaffDTO staff = boardMapper.getStaffByQuery(sno);
+		StaffDTO staff = staffMapper.getStaffByQuery(sno);
 		LOGGER.info(staff.toString());
 		assertNotNull(staff);
 	}

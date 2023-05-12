@@ -37,16 +37,18 @@
 	}
 	
 	function fnAdd() {
-		var regSno = /^[0-9]{5}$/;
-        if(regSno.test(sno.value) == false){
-            alert('사원번호는 5자리 숫자입니다');
-            return;
-        }
-        var regDept = /^[가-힣]{3,5}$/;
-        if(regDept.test(dept.value) == false){
-            alert('부서는 3~5자리 한글입니다.');
-            return;
-        }
+		$('#btn_add').click(function(){
+			var regSno = /^[0-9]{5}$/;
+	        if(regSno.test(sno.value) == false){
+	            alert('사원번호는 5자리 숫자입니다');
+	            return;
+	        }
+	        var regDept = /^[가-힣]{3,5}$/;
+	        if(regDept.test(dept.value) == false){
+	            alert('부서는 3~5자리 한글입니다.');
+	            return;
+	        }
+		})
 		$.ajax({
 			type: 'post',
 			url: '${contextPath}/add.do',
@@ -96,7 +98,7 @@
 			<input type="text" name="sno" id="sno" placeholder="사원번호">
 			<input type="text" name="name" id="name" placeholder="사원명">
 			<input type="text" name="dept" id="dept" placeholder="부서명">
-			<input type="button" value="등록" onclick="fnAdd()">
+			<input type="button" id="btn_add" value="등록" onclick="fnAdd()">
 		</form>
 	</div>
 	
