@@ -17,6 +17,7 @@
 	})
 	
 	function fnList(){
+		
 		$.ajax({
 			type: 'get',
 			url: '${contextPath}/list.json',
@@ -36,6 +37,16 @@
 	}
 	
 	function fnAdd() {
+		var regSno = /^[0-9]{5}$/;
+        if(regSno.test(sno.value) == false){
+            alert('사원번호는 5자리 숫자입니다');
+            return;
+        }
+        var regDept = /^[가-힣]{3,5}$/;
+        if(regDept.test(dept.value) == false){
+            alert('부서는 3~5자리 한글입니다.');
+            return;
+        }
 		$.ajax({
 			type: 'post',
 			url: '${contextPath}/add.do',
@@ -50,6 +61,27 @@
 			},
 			error: function(jqXHR){  // jqXHR.responseText : 사원 등록이 실패했습니다.
 				alert(jqXHR.responseText);
+			}
+		})
+	}
+	
+	function fnSearch(){
+		$.ajax({
+			type: 'get',
+			url: '${contextPath}/query.json',
+			data: $('#frm_search').serialize(),
+			dataType: 'json',
+			success: function(resData){
+				$('#staffList').empty();
+				let str = '<tr>';
+				str += '<td>' + resData.sno;
+				str += '<td>' + resData.name;
+				str += '<td>' + resData.dept;
+				str += '<td>' + resData.salary;
+				$('#staffList').append(str);
+			},
+			error: function(jqXHR){  // jqXHR.responseText : 사원 등록이 실패했습니다.
+				alert('조회된 사원정보가 없습니다.');
 			}
 		})
 	}

@@ -13,4 +13,5 @@ public interface StaffService {
 	public ResponseEntity<List<StaffDTO>> getStaffList2();
 	public String addStaff1(HttpServletRequest request);
 	public ResponseEntity<String> addStaff2(StaffDTO staffDTO);
+	public ResponseEntity<StaffDTO> getStaffByQuery(String query);
 }

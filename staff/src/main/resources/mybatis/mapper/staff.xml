@@ -30,5 +30,11 @@
 		  </choose>
 		)  
 	</insert>
+	
+	<select id="getStaffByQuery" parameterType="String" resultType="StaffDTO">
+		SELECT SNO, NAME, DEPT, SALARY
+		  FROM STAFF
+		 WHERE SNO = #{sno}
+	</select>
 
 </mapper>

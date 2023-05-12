@@ -10,4 +10,5 @@ import com.gdu.staff.domain.StaffDTO;
 public interface StaffMapper {
 	public List<StaffDTO> getStaffList();
 	public int addStaff(StaffDTO staffDTO);
+	public StaffDTO getStaffByQuery(String query);
 }

@@ -60,4 +60,15 @@ public class StaffServiceImpl implements StaffService {
 			return new ResponseEntity<String>("사원 등록이 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@Override
+	public ResponseEntity<StaffDTO> getStaffByQuery(String query) {
+		try {
+			String sno = query;
+			sno = sno.isEmpty() ? "0" : sno;
+			return new ResponseEntity<StaffDTO>(staffMapper.getStaffByQuery(sno), HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<StaffDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

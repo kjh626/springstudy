@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdu.staff.domain.StaffDTO;
@@ -41,6 +42,11 @@ public class StaffController {
 	@PostMapping(value="/add.do", produces="text/plain; charset=UTF-8")
 	public ResponseEntity<String> add2(StaffDTO staffDTO) {
 		return staffService.addStaff2(staffDTO);
+	}
+	
+	@GetMapping("/query.json")
+	public ResponseEntity<StaffDTO> query(@RequestParam(value="query", required=true) String query) {
+		return staffService.getStaffByQuery(query);
 	}
 	
 }
