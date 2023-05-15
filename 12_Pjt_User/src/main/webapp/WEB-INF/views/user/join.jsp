@@ -22,7 +22,14 @@
     <hr>
     
     <form id="frmJoin" method="post" action="${contextPath}/user/join.do">
-    
+    	
+    	<!-- agree.jsp에서 전달된 location, event 속성 -->
+    	<input type="hidden" name="location" value="${location}">
+    	<input type="hidden" name="event" value="${event}">
+    	
+    	<!-- id의 ①정규식체크, ②아이디의 중복체크(DB까지 갔다와야 알 수 있음)
+    	     ajax를 써서 아이디체크를 해야함(화면 안 바꾸고 DB갔다오려면..)
+    	     span에 체크 결과 내용이 나올 수 있도록 해준다.(틀렸다, 중복이다, 둘다 통과->사용할 수 있는 id다 등) -->
       <div>
         <label for="id">아이디*</label>
         <input type="text" name="id" id="id">
