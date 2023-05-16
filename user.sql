@@ -1,14 +1,14 @@
-DROP TABLE USER_ACCESS;
-DROP TABLE USER;
+DROP TABLE USER_ACCESS_T;
+DROP TABLE USER_T;
 
 -- 회원
-CREATE TABLE USER (
+CREATE TABLE USER_T (
     USER_NO        NUMBER             NOT NULL,
     ID             VARCHAR2(40 BYTE)  NOT NULL UNIQUE,  -- ID 정규식에 반영. 40자 넘었는지 안 넘었는지
     PW             VARCHAR2(64 BYTE)  NOT NULL,         -- SHA-256 암호화 방식 사용 글자수에 상관없이 64자로 암호화된다.그래서 64BYTE
     NAME           VARCHAR2(40 BYTE),                  -- 이름
     GENDER         VARCHAR2(2 BYTE),                   -- M, F, NO
-    EMAIL          VARCHAR2(100 BYTE) NOT NULL,        -- 이메일
+    EMAIL          VARCHAR2(100 BYTE) NOT NULL UNIQUE,        -- 이메일
     MOBILE         VARCHAR2(15 BYTE),                  -- 하이픈 제외(-) 후 저장
     BIRTHYEAR      VARCHAR2(4 BYTE),                   -- 출생년도(YYYY)
     BIRTHDATE      VARCHAR2(4 BYTE),                   -- 출생월일(MMDD)
@@ -26,34 +26,35 @@ CREATE TABLE USER (
 );
 
 -- 회원 접속 기록(회원마다 마지막 로그인 날짜 1개만 기록)
-CREATE TABLE USER_ACCESS (
+CREATE TABLE USER_ACCESS_T (
     ID            VARCHAR2(40 BYTE) NOT NULL UNIQUE,   -- 로그인한 사용자 ID. UNIQUE달아준 이유는 성능때문에,속도 향상
     LAST_LOGIN_AT DATE                                 -- 마지막 로그인 날짜
 );
 
-ALTER TABLE USER
+ALTER TABLE USER_T
     ADD CONSTRAINT PK_USER
         PRIMARY KEY(USER_NO);
         
-ALTER TABLE USER_ACCESS
+ALTER TABLE USER_ACCESS_T
     ADD CONSTRAINT FK_USER_ACCESS
-        FOREIGN KEY(ID) REFERENCES USER(ID)
+        FOREIGN KEY(ID) REFERENCES USER_T(ID)
             ON DELETE CASCADE;
             
 DROP SEQUENCE USER_SEQ;
 CREATE SEQUENCE USER_SEQ NOCACHE;
     
 -- 탈퇴 (탈퇴한 아이디로 재가입이 불가능)
-DROP TABLE LEAVE_USER;
-CREATE TABLE LEAVE_USER(
+DROP TABLE LEAVE_USER_T;
+CREATE TABLE LEAVE_USER_T(
     ID        VARCHAR2(40 BYTE) NOT NULL UNIQUE,
+    EMAIL          VARCHAR2(100 BYTE) NOT NULL UNIQUE,
     JOINED_AT DATE,     -- 가입일
     LEAVED_AT DATE      -- 탈퇴일
 );
 
 -- 하루에 한번씩 돌아가는 스케줄러를 짜서 오늘날짜하고 로그인한 날짜하고 비교해서 시간이 오래됐다 싶으면 이메일을 보내주는 서비스 구현 가능(카톡으로 보내주는 것도 API로 가능)
-DROP TABLE SLEEP_USER;
-CREATE TABLE SLEEP_USER(
+DROP TABLE SLEEP_USER_T;
+CREATE TABLE SLEEP_USER_T(
     USER_NO        NUMBER             NOT NULL,
     ID             VARCHAR2(40 BYTE)  NOT NULL UNIQUE,  -- ID 정규식에 반영. 40자 넘었는지 안 넘었는지
     PW             VARCHAR2(64 BYTE)  NOT NULL,         -- SHA-256 암호화 방식 사용 글자수에 상관없이 64자로 암호화된다.그래서 64BYTE
