@@ -20,11 +20,10 @@ import com.gdu.app12.service.UserService;
 @RequestMapping("/user")
 @Controller
 public class UserController {
-  
+
   // field
   @Autowired
   private UserService userService;
-  
   
   @GetMapping("/agree.form")
   public String agreeForm() {
@@ -33,11 +32,10 @@ public class UserController {
   
   @GetMapping("/join.form")
   public String joinForm(@RequestParam(value="location", required=false) String location  // 파라미터 location이 전달되지 않으면 빈 문자열("")이 String location에 저장된다.
-                      , @RequestParam(value="event", required=false) String event        // 파라미터 event가 전달되지 않으면 빈 문자열("")이 String event에 저장된다.
-                      , Model model) {    // jsp로 넘겨주려면 model이 필요하다.
+                       , @RequestParam(value="event", required=false) String event        // 파라미터 event가 전달되지 않으면 빈 문자열("")이 String event에 저장된다.
+                       , Model model) {
     model.addAttribute("location", location);
     model.addAttribute("event", event);
-    // 이 동의한 값을 DB까지 전달해줘야 한다.(agreeCode)
     return "user/join";
   }
   
@@ -71,23 +69,40 @@ public class UserController {
     model.addAttribute("url", url);
     
     return "user/login";
+    
   }
-
+  
   @PostMapping("/login.do")
   public void login(HttpServletRequest request, HttpServletResponse response) {
     userService.login(request, response);
   }
   
   @GetMapping("/logout.do")
-  public String logout(HttpServletRequest request, HttpServletResponse response) {
+  public String requiredLogin_logout(HttpServletRequest request, HttpServletResponse response) {
+    // 로그인이 되어 있는지 확인
     userService.logout(request, response);
     return "redirect:/";
   }
   
   @GetMapping("/leave.do")
-  public void leave(HttpServletRequest request, HttpServletResponse response) {
+  public void requiredLogin_leave(HttpServletRequest request, HttpServletResponse response) {
+    // 로그인이 되어 있는지 확인
     userService.leave(request, response);
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
 }

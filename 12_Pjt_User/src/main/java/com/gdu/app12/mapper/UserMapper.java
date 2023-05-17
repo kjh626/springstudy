@@ -20,4 +20,5 @@ public interface UserMapper {
   public int updateUserAccess(String id);
   public int insertLeaveUser(LeaveUserDTO leaveUserDTO);
   public int deleteUser(String id);
+  
 }

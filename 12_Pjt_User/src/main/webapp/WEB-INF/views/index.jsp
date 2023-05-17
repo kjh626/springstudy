@@ -11,11 +11,11 @@
 <title>Insert title here</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script>
-	function fnLeave(){
-		if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')){
-			location.href = '${contextPath}/user/leave.do';
-		}
-	}
+  function fnLeave(){
+    if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')){
+      location.href = '${contextPath}/user/leave.do';
+    }
+  }
 </script>
 </head>
 <body>
@@ -24,22 +24,22 @@
   <!-- jsp에 저장소 4개 pageContext, request, session, application
        1) ${loginId} 2) {sessionScope.loginId} -->
   
-  	<!-- 로그인이 안 된 상태 -->
-  	<c:if test="${sessionScope.loginId == null}">
-	  	<a href="${contextPath}/user/agree.form">회원가입</a>
-	  	<a href="${contextPath}/user/login.form">로그인</a>
-  	</c:if>
-  	
-  	<!-- 로그인이 된 상태 -->
-  	<c:if test="${sessionScope.loginId != null}">
-  		<div>
-  			<a href="#">${sessionScope.loginId}</a> 님 반갑습니다 ♥
-  		</div>
-  		<div>
-  			<a href="${contextPath}/user/logout.do">로그아웃</a>
-  			<a href="javascript:fnLeave()">회원탈퇴</a>
-  		</div>
-  	</c:if>
+ 		<!-- 로그인이 안 된 상태 -->
+    <c:if test="${sessionScope.loginId == null}">    
+      <a href="${contextPath}/user/agree.form">회원가입</a>
+      <a href="${contextPath}/user/login.form">로그인</a>
+    </c:if>
+    
+    <!-- 로그인이 된 상태 -->
+    <c:if test="${sessionScope.loginId != null}">
+      <div>
+        <a href="#">${sessionScope.loginId}</a>님 반갑습니다 ♥
+      </div>
+      <div>
+        <a href="${contextPath}/user/logout.do">로그아웃</a>
+        <a href="javascript:fnLeave()">회원탈퇴</a>
+      </div>
+    </c:if>
   	
   	<!-- 관리자 접속 -->
   	<%--
