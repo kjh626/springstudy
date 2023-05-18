@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,20 +78,31 @@ public class UserController {
     userService.login(request, response);
   }
   
+  
   @GetMapping("/logout.do")
-  public String requiredLogin_logout(HttpServletRequest request, HttpServletResponse response) {
+  public String logout(HttpServletRequest request, HttpServletResponse response) {
     // 로그인이 되어 있는지 확인
     userService.logout(request, response);
     return "redirect:/";
   }
   
   @GetMapping("/leave.do")
-  public void requiredLogin_leave(HttpServletRequest request, HttpServletResponse response) {
+  public void leave(HttpServletRequest request, HttpServletResponse response) {
     // 로그인이 되어 있는지 확인
     userService.leave(request, response);
   }
   
+  @GetMapping("/wakeup.form")
+  public String wakeup() {
+    return "user/wakeup";
+  }
   
+  @GetMapping("/restore.do")
+  public void restore(HttpSession session) {
+    // 복원할 회원의 아이디를 sysout으로 출력해 보시오.
+    
+    System.out.println("복원할 회원의 아이디 : " + session.getAttribute("sleepUserId"));
+  }
   
   
   

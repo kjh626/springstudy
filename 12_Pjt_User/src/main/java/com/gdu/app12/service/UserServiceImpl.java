@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
     
     // 참고항목 XSS 처리
     extraAddress = securityUtil.preventXSS(extraAddress);
-    
+      
     // agreecode
     int agreecode = 0;
     if(location.isEmpty() == false && event.isEmpty() == false) {
@@ -270,7 +270,18 @@ public class UserServiceImpl implements UserService {
     
   }
 
+  @Transactional(readOnly = true)
+  @Override
+  public void sleepUserHandle() {
+    int insertResult = userMapper.insertSleepUser();
+    if(insertResult > 0) {
+      userMapper.deleteUserForSleep();
+    }
+    System.out.println(insertResult);
+  }
+  
 }
+
 
 
 

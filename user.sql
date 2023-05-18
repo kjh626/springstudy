@@ -77,7 +77,16 @@ CREATE TABLE SLEEP_USER_T(
 
 -- 간편 가입 서비스를 하고 싶은 사람들은 일단 서비스API문서를 먼저 봐야한다. 그래야 뭐가 더 필요한 지 알 수 있다. 지금 있는 정보로 네이버 로그인은 가능할 듯?
 
+-- user1/1111, user2/2222, user3/3333
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user1', ' FFE1ABD1A 8215353C233D6E0 9613E95EEC4253832A761AF28FF37AC5A15 C', '고길동', 'M', 'gildong@naver.com', '01011111111', '2000', '0101', '12345', '서울시', '서울시', '가산동', '가산동', 0, TO_DATE('20220101', 'YYYYMMDD'), NULL, NULL, NULL);
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user2', 'EDEE29F882543B956620B26D EE0E7E950399B1C4222F5DE 5E06425B4C995E9', '홍길순', 'F', 'gilsoon@naver.com', '01022222222', '2000', '0101', '12345', '서울시', '서울시', '가산동', '가산동', 0, TO_DATE('20220101', 'YYYYMMDD'), NULL, NULL, NULL);
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user3', '318AEE3FED8C9D 4 D35A7FC1FA776FB31303833AA2DE885354DDF3D44D8FB69', '최자두', 'F', 'jadoo@naver.com', '01033333333', '2000', '0101', '12345', '서울시', '서울시', '가산동', '가산동', 0, TO_DATE('20220101', 'YYYYMMDD'), NULL, NULL, NULL);
 
+INSERT INTO USER_ACCESS_T VALUES('user1', TO_DATE('20230501', 'YYYYMMDD'));  -- user1 정상 회원
+INSERT INTO USER_ACCESS_T VALUES('user2', TO_DATE('20220501', 'YYYYMMDD'));  -- user2 휴면 대상(12개월 이상 로그인 이력 없음)
+-- user3 휴면 대상(12개월 이상 로그인 이력이 아예 없음)
+
+COMMIT;
 
 
 
