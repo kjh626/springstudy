@@ -26,3 +26,5 @@
 			<li><a href="${contextPath}/qna/list.do">QNA</a></li>
 		</ul>
 	</div>
+	
+	<hr>
