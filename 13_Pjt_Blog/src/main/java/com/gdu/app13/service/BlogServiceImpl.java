@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -107,7 +106,19 @@ public class BlogServiceImpl implements BlogService {
     // HDD에 저장할 파일의 이름(UUID.확장)
     String filesystemName = myFileUtil.getFilesystemName(multipartFile.getOriginalFilename());
     
+    // HDD 저장
+    try {
+      File file = new File(dir, filesystemName);
+      // 이게 저장임(복사)
+      multipartFile.transferTo(file);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
     
-    return null;
+    // HDD에 저장된 파일의 확인을 위한 mapping 값을 반환(servlet-context.xml 참고할 것)
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("src", multipartRequest.getContextPath() + "/imageLoad/" + filesystemName);
+    
+    return map;
   }
 }
