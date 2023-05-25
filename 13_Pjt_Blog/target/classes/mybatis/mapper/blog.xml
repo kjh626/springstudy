@@ -78,7 +78,7 @@
 	</insert>
 	
 	<update id="increaseHit" parameterType="int">
-		UPDATE HIT_T
+		UPDATE BLOG_T
 		   SET HIT = HIT + 1
 		 WHERE BLOG_NO = #{blogNo} 
 	</update>
