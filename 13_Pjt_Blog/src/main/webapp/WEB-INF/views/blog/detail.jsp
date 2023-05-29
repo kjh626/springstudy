@@ -132,59 +132,58 @@
     		  url: '${contextPath}/comment/list.do',
     		  data: 'blogNo=${blog.blogNo}&page=' + page,
     		  dataType: 'json',
-    		  success: function(resData){  // resData = { "commentList": [{}, {}, ... ], "pageUtil": {객체pageUtil의 각종 정보(9개) beginPage: 1, endPage: 5, ... }  }
+    		  success: function(resData){  // resData = { "commentList": [{}, {}, ...], "pageUtil": {beginPage: 1, endPage: 5, ...} }
     			  $('#commentList').empty();
-    		  	$.each(resData.commentList, function(i, comment){
-    		  		var str = '<div>';
-    		  		if(comment.state == -1) {
-    		  			if(comment.depth == 0) {
-    		  				str += '<span>삭제된 댓글입니다.';
-    		  			} else {
-    		  				str += '<span style="margin-left: 30px">삭제된 답글입니다.';
-    		  			}
-    		  		} else {
-    		  			if(comment.depth == 0) {
-    		  				str += '<span>';
-    		  			} else {
-    		  				str += '<span style="margin-left: 30px;">'
-    		  			}
-    		  			str += comment.memberDTO.name;
-    		  			str += ' - ' + comment.content;
-	    		  		if('${sessionScope.loginId}' != '') {
-	    		  			if('${sessionScope.loginId}' == comment.memberDTO.id && comment.state == 1) {
-	    		  				str += '<input type="button" value="삭제" class="btnCommentRemove" data-comment_no="' + comment.commentNo + '">';
-	    		  			} else if('${sessionScope.loginId}' != comment.memberDTO.id && comment.depth == 0){
-	    		  				str += '<input type="button" value="답글" class="btnOpenReply">';
-	    		  			}
-	    		  		}
-	    		  		str += '<div class="replyArea blind">';
-	    		  		str += '  <form class="frmReply">';
-	    		  		str += '    <input type="text" name="content" placeholder="답글 작성해 주세요">';
-	    		  		str += '    <input type="hidden" name="blogNo" value="' + ${blog.blogNo} + '">';
-	    		  	  str += '    <input type="hidden" name="memberNo" value="' + ${sessionScope.loginNo} + '">';
-	    		  		str += '    <input type="button" value="답글작성완료" class="btnAddReply">';
-	    		  		str += '  </form>';
-	    		  		str += '</div>';
-    		  		}
-    		  		$('#commentList').append(str);
-    		  	})
+    			  $.each(resData.commentList, function(i, comment){
+    				  var str = '<div>';
+    				  if(comment.state == -1){
+    					  if(comment.depth == 0){    						  
+      					  str += '<span>삭제된 댓글입니다.';
+    					  } else {
+    						  str += '<span style="margin-left: 30px;">삭제된 답글입니다.';
+    					  }
+    				  } else {
+    					  if(comment.depth == 0){
+    						  str += '<span>';
+    					  } else {
+    						  str += '<span style="margin-left: 30px;>"'
+    					  }
+      				  str += comment.memberDTO.name;
+      				  str += ' - ' + comment.content;
+      				  if('${sessionScope.loginId}' != ''){
+      					  if('${sessionScope.loginId}' == comment.memberDTO.id && comment.state == 1){
+      						  str += '<input type="button" value="삭제" class="btnCommentRemove" data-comment_no="' + comment.commentNo + '">';
+      					  } else if('${sessionScope.loginId}' != comment.memberDTO.id && comment.depth == 0){
+      						  str += '<input type="button" value="답글" class="btnOpenReply">';
+      					  }
+      				  }
+      				  str += '<div class="replyArea blind">';
+      				  str += '  <form class="frmReply">';
+      				  str += '    <input type="text" name="content" placeholder="답글 작성해 주세요">';
+      				  str += '    <input type="hidden" name="blogNo" value="' + comment.blogNo + '">';
+      				  str += '    <input type="hidden" name="memberNo" value="' + comment.memberDTO.memberNo + '">';
+      				  str += '    <input type="button" value="답글작성완료" class="btnAddReply">';
+      				  str += '  </form>';
+      				  str += '</div>';
+    				  }
+    				  $('#commentList').append(str);
+    			  })
     		  }
     	  })
       }
       
       // 이벤트를 이렇게 쓰는 것은 동적으로 만든 객체 => 자바스크립트로 만든 객체들은 이벤트를 이렇게 만들어준다.
       // 토글 jquery 4장 DOM_operate 에 있음
-      function fnToggleReplyArea() {
+      function fnToggleReplyArea(){
     	  $(document).on('click', '.btnOpenReply', function(){
     		  $(this).next().toggleClass('blind');
-    		  fnToggleReplyArea();
     	  })
-    	  
       }
       
       fnLoginCheck();
       fnAddComment();
       fnCommentList();
+	  fnToggleReplyArea();
     </script>
 	</div>
 	
