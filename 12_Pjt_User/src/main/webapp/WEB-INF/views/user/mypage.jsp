@@ -14,7 +14,6 @@
 
 
   // 전역 변수 (각종 검사 통과 유무를 저장하는 변수)
-  var verifyId = false;
   var verifyPw = false;
   var verifyRePw = false;
   var verifyName = false;
@@ -24,53 +23,30 @@
   
   // 함수 정의
   
-  // 1. 아이디 검사(정규식 + 중복)
-  function fnCheckId(){
-	  
-	  $('#id').on('keyup', function(){
-		  
-		  // 입력한 아이디
-		  let id = $(this).val();
-		  
-		  // 정규식 (5~40자, 소문자+숫자+하이픈(-)+밑줄(_) 사용 가능, 첫 글자는 소문자+숫자 사용 가능)
-		  let regId = /^[a-z0-9][a-z0-9-_]{4,39}$/;
-		  
-		  // 정규식 검사
-		  verifyId = regId.test(id);
-		  if(verifyId == false){
-			  $('#msgId').text('5~40자, 소문자+숫자+하이픈(-)+밑줄(_) 사용 가능, 첫 글자는 소문자+숫자 사용 가능');
-			  return;  // 여기서 함수 실행을 종료한다. (이후에 나오는 ajax(중복 체크) 실행을 막기 위해서)
-		  }
-		  
-		  // 아이디 중복 체크 ajax
-		  $.ajax({
-			  type: 'get',
-			  url: '${contextPath}/user/verifyId.do',
-			  data: 'id=' + id,
-			  dataType: 'json',
-			  success: function(resData){  // resData = {"enableId": true} 또는 {"enableId": false}
-				  verifyId = resData.enableId;
-			    if(verifyId){
-					  $('#msgId').text('사용 가능한 아이디입니다.');
-				  } else {
-					  $('#msgId').text('이미 사용 중인 아이디입니다.');
-				  }
-			  }
-		  })
-		  
-	  })
-	  
+  function fnEditPwInit(){
+	  $('#pw').val('');
+	  $('#rePw').val('');
+	  $('#msgPw').val('');
+	  $('#msgRePw').val('');
   }
   
-  // 2. 비밀번호 검사 (정규식)
+  function fnToggleEditPwArea(){
+    $('#editPw').hide();
+    $('#btnOpenEditPw').on('click', function(){
+    	fnEditPwInit();
+    	$('#btnOpenEditPw').hide();
+      $('#editPw').show();
+    });
+    $('#btnCloseEditPw').on('click', function(){
+    	fnEditPwInit();
+    	$('#btnOpenEditPw').show();
+    	$('#editPw').hide();
+    });
+  }
+  
   function fnCheckPw(){
-	  
 	  $('#pw').on('keyup', function(){
-		
-		  // 입력한 비밀번호
 		  let pw = $(this).val();
-		  
-		  // 길이(4~20자) 및 정규식(소문자+대문자+숫자+특수문자 사용 가능, 3개 이상 조합)
 		  let pwLength = pw.length;
 		  let validCount = /[a-z]/.test(pw)         //   소문자를 가지고 있으면 true(1), 없으면 false(0)
 				             + /[A-Z]/.test(pw)         //   대문자를 가지고 있으면 true(1), 없으면 false(0)
@@ -82,69 +58,43 @@
 		  } else {
 			  $('#msgPw').text('4~20자, 소문자+대문자+숫자+특수문자 사용 가능, 3개 이상 조합');
 		  }
-	  
 	  })
-	  
   }
   
-  // 3. 비밀번호 확인
   function fnCheckPwAgain(){
-    
     $('#rePw').on('keyup', function(){
-      
-    	// 입력된 비밀번호
     	let pw = $('#pw').val();
-    	
-      // 재입력한 비밀번호
       let rePw = $(this).val();
-      
-      // 비밀번호와 재입력한 비밀번호 검사
       verifyRePw = (rePw != '') && (rePw == pw);
       if(verifyRePw){
         $('#msgRePw').text('');
       } else {
         $('#msgRePw').text('비밀번호 입력을 확인하세요.');
       }
-      
     })
-    
   }
   
-  // 4. 이름
   function fnCheckName(){
-	  
 	  $('#name').on('keyup', function(){
 		  verifyName = $(this).val() != '';
 	  })
-	  
   }
   
-  // 5. 휴대전화
   function fnCheckMobile(){
-	  
 	  $('#mobile').on('keyup', function(){
-		  
-		  // 입력한 휴대전화
 		  let mobile = $(this).val();
-		  
-		  // 정규식
 		  let regMobile = /^010[0-9]{7,8}$/;
-		  
-		  // 정규식 검사
 		  verifyMobile = regMobile.test(mobile);
 		  if(verifyMobile){
 			  $('#msgMobile').text('');
 		  } else {
 			  $('#msgMobile').text('휴대전화 입력을 확인하세요.');			  
 		  }
-		  
 	  })
-	  
   }
   
   // 6. 년/월/일
   function fnCreateDate(){
-	  
 	  // 년도(100년 전 ~ 1년 후)
 	  let year = new Date().getFullYear();
     let strYear = '<option value="">년도</option>';
@@ -152,7 +102,7 @@
       strYear += '<option value="' + y + '">' + y + '</option>';
     }
     $('#birthyear').append(strYear);
-	  
+    $('#birthyear').val('${loginUser.birthyear}').prop('selected', true);
 	  // 월(1 ~ 12월)
     let strMonth = '<option value="">월</option>';
     for(let m = 1; m <= 12; m++){
@@ -163,38 +113,29 @@
       }
     }
     $('#birthmonth').append(strMonth);
-	  
-	  // 일(월에 따른 연동)
+    $('#birthmonth').val('${loginUser.birthdate.substring(0,2)}').prop('selected', true);
+	  // 일
+    $('#birthdate').empty();
     $('#birthdate').append('<option value="">일</option>');
-    
-    $('#birthmonth').on('change', function(){
-      
-      $('#birthdate').empty();
-      $('#birthdate').append('<option value="">일</option>');
-      let endDay = 0;
-      let strDay = '';
-      switch($(this).val()){
-      case '02':
-        endDay = 29; break;
-      case '04':
-      case '06':
-      case '09':
-      case '11':
-        endDay = 30; break;
-      default:
-        endDay = 31; break;
+    let endDay = 0;
+    let strDay = '';
+    switch($('#birthmonth').val()){
+    case '02':
+      endDay = 29; break;
+    case '04': case '06': case '09': case '11':
+      endDay = 30; break;
+    default:
+      endDay = 31; break;
+    }
+    for(let d = 1; d <= endDay; d++){
+      if(d < 10){
+        strDay += '<option value="0' + d + '">' + d + '일</option>';
+      } else {
+        strDay += '<option value="' + d + '">' + d + '일</option>';
       }
-      for(let d = 1; d <= endDay; d++){
-        if(d < 10){
-          strDay += '<option value="0' + d + '">' + d + '일</option>';
-        } else {
-          strDay += '<option value="' + d + '">' + d + '일</option>';
-        }
-      }
-      $('#birthdate').append(strDay);
-      
-    });
-	  
+    }
+    $('#birthdate').append(strDay);
+    $('#birthdate').val('${loginUser.birthdate.substring(2)}').prop('selected', true);
   }
   
   // 7. 이메일 검사 및 인증코드 전송
@@ -207,7 +148,7 @@
 		  
 		  new Promise(function(resolve, reject){
 			  
-			  // 정규식
+			  // 정규식 
 			  let regEmail = /^[a-zA-Z0-9-_]+@[a-zA-Z0-9]{2,}(\.[a-zA-Z]{2,6}){1,2}$/;
 			  //
 			  //                  gt_min     @ naver         (.com)
@@ -285,28 +226,6 @@
 	  })
 	  
   }
-  /*
-  new Promise(function(resolve, reject){
-	  
-	  reject(1);  // 정규식 실패
-	  
-	  $.ajax({
-		  success: function(){
-			  resolve();   // 이메일 중복 체크 통과
-			  reject(2);   // 이메일 중복 체크 실패
-		  }
-	  })
-	  
-  }).then(function(){   // resolve() 함수 호출할 때 처리되는 함수(ajax 처리 success 했을 때)
-	  // 인증코드전송
-	  $.ajax({
-		  
-	  })
-  }).catch(function(number){  // reject() 함수 호출할 때 처리되는 함수(ajax 처리 error 했을 때)
-	  // number == 1인 경우 정규식 실패 메시지
-	  // number == 2인 경우 이메일 중복 체크 실패 메시지
-  })
-  */
 	
   // 8. submit (회원가입)
   function fnJoin(){
@@ -345,7 +264,7 @@
   
   // 함수 호출
   $(function(){
-	  fnCheckId();
+	  fnToggleEditPwArea();
 	  fnCheckPw();
 	  fnCheckPwAgain();
 	  fnCheckName();
@@ -361,54 +280,62 @@
 
   <div>
   
-    <h1>회원 가입</h1>
-  
-    <div>* 표시는 필수 입력사항입니다.</div>
+    <h1>마이페이지</h1>
+    
+    <div>
+      <input type="button" value="비밀번호편집화면열기" id="btnOpenEditPw">
+    </div>
+    <div id="editPw">
+      <form id="frmPw" method="post" action="${contextPath}/user/modifyPw.do">
+        <!-- 비밀번호 -->
+        <div>
+          <label for="pw">비밀번호</label>
+          <input type="password" name="pw" id="pw">
+          <span id="msgPw"></span>
+        </div>
+        <!-- 비밀번호 재확인 -->
+        <div>
+          <label for="rePw">비밀번호 확인</label>
+          <input type="password" id="rePw">
+          <span id="msgRePw"></span>
+        </div>
+        <div>
+          <input type="button" value="비밀번호편집화면닫기" id="btnCloseEditPw">
+          <button>비밀번호수정완료</button>
+        </div>
+      </form>
+    </div>
     
     <hr>
+
+    <div>* 표시는 필수 입력사항입니다.</div>
     
-    <form id="frmJoin" method="post" action="${contextPath}/user/join.do">
     
-      <!-- agree.jsp에서 전달된 location, event 속성 -->
-      <input type="hidden" name="location" value="${location}">
-      <input type="hidden" name="event" value="${event}">
+    <form id="frmEdit" method="post" action="${contextPath}/user/modifyInfo.do">
     
-      <div>
-        <label for="id">아이디*</label>
-        <input type="text" name="id" id="id">
-        <span id="msgId"></span>
-      </div>
-      
-      <div>
-        <label for="pw">비밀번호*</label>
-        <input type="password" name="pw" id="pw">
-        <span id="msgPw"></span>
-      </div>
-      
-      <div>
-        <label for="rePw">비밀번호 확인*</label>
-        <input type="password" id="rePw">
-        <span id="msgRePw"></span>
-      </div>
+      <div>아이디 ${loginUser.id}</div>
+      <div>가입일 ${loginUser.joinedAt}</div>
       
       <div>
         <label for="name">이름*</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" value="${loginUser.name}">
       </div>
-      
       <div>
         <span>성별*</span>
-        <input type="radio" name="gender" id="none" value="NO" checked="checked">
+        <input type="radio" name="gender" id="none" value="NO">
         <label for="none">선택 안함</label>
         <input type="radio" name="gender" id="male" value="M">
         <label for="male">남자</label>
         <input type="radio" name="gender" id="female" value="F">
         <label for="female">여자</label>
       </div>
-    
+      <script>
+        $(':radio[name="gender"][value="${loginUser.gender}"]').prop('checked', true);
+      </script>
+      
       <div>
         <label for="mobile">휴대전화*</label>
-        <input type="text" name="mobile" id="mobile">
+        <input type="text" name="mobile" id="mobile" value="${loginUser.mobile}">
         <span id="msgMobile"></span>
       </div>
     
@@ -420,13 +347,13 @@
       </div>
       
       <div>
-        <input type="text" onclick="execDaumPostcode()" name="postcode" id="postcode" placeholder="우편번호" readonly="readonly">
+        <input type="text" onclick="execDaumPostcode()" name="postcode" id="postcode" placeholder="우편번호" readonly="readonly" value="${loginUser.postcode}">
         <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소">
-        <input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소"><br>
+        <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소" value="${loginUser.roadAddress}">
+        <input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소" value="${loginUser.jibunAddress}"><br>
         <span id="guide" style="color:#999;display:none"></span>
-        <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
-        <input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목">
+        <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소" value="${loginUser.detailAddress}">
+        <input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목" value="${loginUser.extraAddress}">
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script>
             // 본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -489,18 +416,37 @@
       
       <div>
         <label for="email">이메일*</label>
-        <input type="text" name="email" id="email">
-        <input type="button" value="인증번호받기" id="btnGetCode">
-        <span id="msgEmail"></span><br>
-        <input type="text" id="authCode" placeholder="인증코드 입력">
-        <input type="button" value="인증하기" id="btnVerifyCode">
+        <input type="text" name="email" id="email" value="${loginUser.email}">
+        <span id="msgEmail"></span>
+      </div>
+      
+      <div>
+        <div>위치정보 동의여부</div>
+        <input type="radio" name="location" id="locationOn" value="on"><label for="locationOn">동의함</label>
+        <input type="radio" name="location" id="locationOff" value="off"><label for="locationOff">동의 안함</label>
+        <div>프로모션 동의여부</div>
+        <input type="radio" name="event" id="eventOn" value="on"><label for="eventOn">동의함</label>
+        <input type="radio" name="event" id="eventOff" value="off"><label for="eventOff">동의 안함</label>
+        <script>
+          if('${loginUser.agreecode}' == '1' || '${loginUser.agreecode}' == '3'){
+            $(':radio[name="location"][value="on"]').prop('checked', true);       
+          } else {
+            $(':radio[name="location"][value="off"]').prop('checked', true);
+          }
+          if('${loginUser.agreecode}' == '2' || '${loginUser.agreecode}' == '3'){
+            $(':radio[name="event"][value="on"]').prop('checked', true);        
+          } else {
+            $(':radio[name="event"][value="off"]').prop('checked', true);
+          }
+        </script>
       </div>
       
       <hr>
       
       <div>
-        <button>가입하기</button>
-        <input type="button" value="취소하기">
+        <button>개인정보수정완료</button>
+        <input type="button" value="취소하기" ID="btnCancel">
+        <input type="button" value="회원탈퇴" ID="btnLeave">
       </div>
     
     </form>
