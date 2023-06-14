@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdu.app13.service.CommentService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RequestMapping("/comment")
 @Controller
 public class CommentController {
 
-  @Autowired
-  private CommentService commentService;
+  private final CommentService commentService;
   
   @ResponseBody
   @PostMapping(value="/addComment.do", produces="application/json")
@@ -32,6 +34,12 @@ public class CommentController {
   @GetMapping(value="/list.do", produces="application/json")
   public Map<String, Object> list(HttpServletRequest request) {
     return commentService.getCommentList(request);
+  }
+
+  @PostMapping(value="/addReply.do", produces="application/json")
+  @ResponseBody
+  public Map<String, Object> addReply(HttpServletRequest request) {
+    return commentService.addReply(request);
   }
   
 }

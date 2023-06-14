@@ -17,12 +17,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.app13.service.BlogService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RequestMapping("/blog")
 @Controller
 public class BlogController {
 
-  @Autowired
-  private BlogService blogService;
+  private final BlogService blogService;
   
   @GetMapping("/list.do")
   public String list(HttpServletRequest request, Model model) {
@@ -39,6 +41,7 @@ public class BlogController {
   public void add(HttpServletRequest request, HttpServletResponse response) {
     blogService.addBlog(request, response);
   }
+  
   @ResponseBody
   @PostMapping(value="imageUpload.do", produces="application/json")
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest){  // 요청에 파일첨부가 되어있을 때 MultipartHttpServletRequest 를 쓴다.
@@ -47,11 +50,10 @@ public class BlogController {
     return blogService.imageUpload(multipartRequest);
   }
   
-  @GetMapping("/increaseHit.do")
-  public String increaseHit(@RequestParam(value="blogNo", required = false, defaultValue = "0") int blogNo) {
-    // 조회수 증가 서비스(성공하면 상세보기, 실패하면 목록보기로 )
+  @GetMapping("/increseHit.do")
+  public String increseHit(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo) {
     int increaseResult = blogService.increaseHit(blogNo);
-    if (increaseResult == 1) {
+    if(increaseResult == 1) {
       return "redirect:/blog/detail.do?blogNo=" + blogNo;
     } else {
       return "redirect:/blog/list.do";
@@ -59,12 +61,10 @@ public class BlogController {
   }
   
   @GetMapping("/detail.do")
-  public String detail(@RequestParam(value="blogNo", required = false, defaultValue = "0") int blogNo
+  public String detail(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo
                      , Model model) {
-    // 상세보기 서비스
     blogService.loadBlog(blogNo, model);
     return "blog/detail";
   }
-  
   
 }

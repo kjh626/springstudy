@@ -41,7 +41,7 @@
 								<a href="${contextPath}/blog/detail.do?blogNo=${blog.blogNo}">${blog.title}</a>
 							</c:if>
 							<c:if test="${sessionScope.loginId ne blog.memberDTO.id}">
-								<a href="${contextPath}/blog/increaseHit.do?blogNo=${blog.blogNo}">${blog.title}</a>
+								<a href="${contextPath}/blog/increseHit.do?blogNo=${blog.blogNo}">${blog.title}</a>
 							</c:if>
 						</td>
 						<td>${blog.hit}</td>

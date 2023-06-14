@@ -21,9 +21,6 @@
 		</association>
 	</resultMap>
 	
-	
-	
-	
 	<select id="getBlogCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM BLOG_T
